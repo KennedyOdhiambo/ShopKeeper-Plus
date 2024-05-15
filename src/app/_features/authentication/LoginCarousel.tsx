@@ -21,7 +21,7 @@ export default function LoginCarousel() {
          <CarouselContent>
             {icons.map((icon, i) => (
                <CarouselItem key={i}>
-                  <Image src={icon} alt={`login slider`} className=" w-full" />
+                  <Image src={icon} alt={`login slider`} className="" priority />
                </CarouselItem>
             ))}
          </CarouselContent>
