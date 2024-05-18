@@ -14,7 +14,7 @@ export default function LoginCarousel() {
    return (
       <Carousel
          plugins={[plugin.current]}
-         className="w-full max-w-sm xl:max-w-lg 2xl:max-w-xl"
+         className="hidden lg:block w-full max-w-sm xl:max-w-lg 2xl:max-w-xl"
          onMouseEnter={plugin.current.stop}
          onMouseLeave={plugin.current.reset}
       >

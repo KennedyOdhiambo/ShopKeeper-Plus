@@ -8,9 +8,9 @@ type FormInputProps = {
 }
 export default function FormInput({ id, label, type }: FormInputProps) {
    return (
-      <div className="flex flex-col space-y-1.5">
+      <div className="flex flex-col gap-2">
          <Label htmlFor={id}>{label}</Label>
-         <Input id={id} type={type} />
+         <Input className="w-[380px] 2xl:w-[320px]" id={id} type={type} />
       </div>
    )
 }
