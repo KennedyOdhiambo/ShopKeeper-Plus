@@ -7,8 +7,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/t
 
 export default function Header() {
    return (
-      <Card className="border-none fixed top-0 w-full shadow-none">
-         <CardContent className="flex items-center justify-between">
+      <Card className="border fixed right-0 z-10 ps-60 top-0 w-full shadow-none py-1">
+         <CardContent className="flex items-center justify-between p-0 px-5 ">
             <SidebarSheet />
 
             <div className="flex flex-row gap-2 items-center">

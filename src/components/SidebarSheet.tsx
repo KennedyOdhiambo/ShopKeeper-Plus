@@ -15,7 +15,7 @@ export default function SidebarSheet() {
          <SheetTrigger>
             <Menu />
          </SheetTrigger>
-         <SheetContent side={"left"} className="w-[400px] sm:w-[540px]">
+         <SheetContent side={"left"} className=" w-80">
             <SheetHeader>
                <SheetTitle>Are you absolutely sure?</SheetTitle>
                <SheetDescription>
