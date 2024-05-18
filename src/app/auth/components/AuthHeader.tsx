@@ -1,8 +1,7 @@
-import React from "react"
-import { ModeToggle } from "./ModeToggle"
+import { ModeToggle } from "@/components/ModeToggle"
+import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
-import logo from "../../public/logo.svg"
-import { Card, CardContent } from "./ui/card"
+import logo from "../../../../public/logo.svg"
 
 export default function AuthHeader() {
    return (

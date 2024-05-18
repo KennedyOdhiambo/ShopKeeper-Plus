@@ -1,6 +1,6 @@
 import Image from "next/image"
-import LoginCard from "./_features/authentication/LoginCard"
-import LoginCarousel from "./_features/authentication/LoginCarousel"
+import LoginCard from "./auth/components/LoginCard"
+import LoginCarousel from "./auth/components/LoginCarousel"
 import logo from "../../public/logo.svg"
 import { ModeToggle } from "@/components/ModeToggle"
 

@@ -1,9 +1,9 @@
 "use client"
 
-import AuthHeader from "@/components/AuthHeader"
 import React, { ReactNode, useContext } from "react"
-import LoginCarousel from "../_features/authentication/LoginCarousel"
+import LoginCarousel from "./components/LoginCarousel"
 import { AuthContext } from "@/context/AuthContext"
+import AuthHeader from "./components/AuthHeader"
 
 export default function AuthLayout({
    login,
