@@ -2,8 +2,8 @@ import SignupCard from "../components/SignupCard"
 
 export default function Signup() {
    return (
-      <div>
+      <main>
          <SignupCard />
-      </div>
+      </main>
    )
 }

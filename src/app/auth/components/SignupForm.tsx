@@ -16,7 +16,7 @@ export default function SignupForm() {
             <FormInput label="Business location" id="location" />
          </div>
 
-         <Link href={"/dashboard"} className="w-full mt-10 flex items-end justify-end">
+         <Link href={"/user/dashboard"} className="w-full mt-10 flex items-end justify-end">
             <Button className="w-full 2xl:w-fit">Complete signup</Button>
          </Link>
       </form>
