@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import BusinessTypeDropdown from "./BusinessTypeDropdown"
 import FormInput from "@/components/FormInput"
+import { Link } from "react-transition-progress/next"
 
 export default function SignupForm() {
    return (
@@ -15,9 +16,9 @@ export default function SignupForm() {
             <FormInput label="Business location" id="location" />
          </div>
 
-         <div className="w-full mt-10 flex items-end justify-end">
+         <Link href={"/dashboard"} className="w-full mt-10 flex items-end justify-end">
             <Button className="w-full 2xl:w-fit">Complete signup</Button>
-         </div>
+         </Link>
       </form>
    )
 }
