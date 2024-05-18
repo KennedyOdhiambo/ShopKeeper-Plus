@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import Link from "next/link"
 import LoginForm from "./LoginForm"
+import DontHaveAnAccount from "./DontHaveAnAccount"
 
 export default function LoginCard() {
    return (
@@ -12,12 +12,7 @@ export default function LoginCard() {
 
          <CardContent>
             <LoginForm />
-            <div className="mt-4 text-center text-sm">
-               Don&apos;t have an account?{" "}
-               <Link href="/signup" className="underline text-primary">
-                  Sign up
-               </Link>
-            </div>
+            <DontHaveAnAccount />
          </CardContent>
       </Card>
    )
