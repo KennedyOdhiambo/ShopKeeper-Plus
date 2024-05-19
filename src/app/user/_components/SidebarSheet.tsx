@@ -1,13 +1,7 @@
 import React from "react"
-import {
-   Sheet,
-   SheetContent,
-   SheetDescription,
-   SheetHeader,
-   SheetTitle,
-   SheetTrigger,
-} from "../../../components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger } from "../../../components/ui/sheet"
 import { Menu } from "lucide-react"
+import SidebarContent from "./SidebarContent"
 
 export default function SidebarSheet() {
    return (
@@ -15,14 +9,8 @@ export default function SidebarSheet() {
          <SheetTrigger className="lg:hidden">
             <Menu />
          </SheetTrigger>
-         <SheetContent side={"left"} className=" w-80">
-            <SheetHeader>
-               <SheetTitle>Are you absolutely sure?</SheetTitle>
-               <SheetDescription>
-                  This action cannot be undone. This will permanently delete your account and remove
-                  your data from our servers.
-               </SheetDescription>
-            </SheetHeader>
+         <SheetContent side={"left"} className="w-fit lg:hidden p-0">
+            <SidebarContent />
          </SheetContent>
       </Sheet>
    )
