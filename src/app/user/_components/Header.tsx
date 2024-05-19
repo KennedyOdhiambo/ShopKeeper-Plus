@@ -1,17 +1,22 @@
 import { Bell } from "lucide-react"
-import { ModeToggle } from "./ModeToggle"
+import { ModeToggle } from "../../../components/ModeToggle"
 import SidebarSheet from "./SidebarSheet"
-import { Avatar, AvatarFallback } from "./ui/avatar"
-import { Card, CardContent } from "./ui/card"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
+import { Avatar, AvatarFallback } from "../../../components/ui/avatar"
+import { Card, CardContent } from "../../../components/ui/card"
+import {
+   Tooltip,
+   TooltipContent,
+   TooltipProvider,
+   TooltipTrigger,
+} from "../../../components/ui/tooltip"
 
 export default function Header() {
    return (
-      <Card className="border fixed right-0 z-10 ps-60 top-0 w-full shadow-none py-1">
+      <Card className="border rounded-none fixed right-0 z-10  lg:ps-60 top-0 w-full shadow-none py-1">
          <CardContent className="flex items-center justify-between p-0 px-5 ">
             <SidebarSheet />
 
-            <div className="flex flex-row gap-2 items-center">
+            <div className="flex flex-row gap-2 justify-end w-full items-center">
                <TooltipProvider>
                   <Tooltip>
                      <TooltipTrigger>

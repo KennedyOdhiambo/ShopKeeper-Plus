@@ -1,5 +1,5 @@
-import Header from "@/components/Header"
-import Sidebar from "@/components/Sidebar"
+import Header from "@/app/user/_components/Header"
+import Sidebar from "@/app/user/_components/Sidebar"
 import React, { ReactNode } from "react"
 
 export default function layout({ children }: { children: ReactNode }) {

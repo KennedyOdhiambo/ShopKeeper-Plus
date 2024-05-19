@@ -6,13 +6,13 @@ import {
    SheetHeader,
    SheetTitle,
    SheetTrigger,
-} from "./ui/sheet"
+} from "../../../components/ui/sheet"
 import { Menu } from "lucide-react"
 
 export default function SidebarSheet() {
    return (
       <Sheet>
-         <SheetTrigger>
+         <SheetTrigger className="lg:hidden">
             <Menu />
          </SheetTrigger>
          <SheetContent side={"left"} className=" w-80">
