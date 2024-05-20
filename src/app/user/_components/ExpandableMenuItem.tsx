@@ -22,7 +22,7 @@ export default function ExpandableMenuItem({ title, icon, menuOptions }: Expanda
    return (
       <>
          <MenubarMenu>
-            <MenubarTrigger className="inline-flex items-center gap-3 whitespace-nowrap rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground w-full justify-start h-10 px-4 py-2">
+            <MenubarTrigger className="inline-flex cursor-pointer items-center gap-3 whitespace-nowrap rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground w-full justify-start h-10 px-4 py-2">
                {icon}
                {title}
                <div className=" ml-auto pl-5">
@@ -33,7 +33,7 @@ export default function ExpandableMenuItem({ title, icon, menuOptions }: Expanda
             <MenubarContent side="right" className=" ms-0.5 rounded-tl-none">
                {menuOptions.map((option, index) => (
                   <Link key={index} href={option.href}>
-                     <MenubarItem>{option.title}</MenubarItem>
+                     <MenubarItem className="cursor-pointer">{option.title}</MenubarItem>
                   </Link>
                ))}
             </MenubarContent>
