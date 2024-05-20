@@ -6,9 +6,9 @@ export default function layout({ children }: { children: ReactNode }) {
    return (
       <section className="flex row">
          <Sidebar />
-         <div className="ms-60 w-screen">
+         <div className="lg:ms-60 w-screen flex">
             <Header />
-            {children}
+            <div className="px-6 mt-10 flex-1">{children}</div>
          </div>
       </section>
    )
