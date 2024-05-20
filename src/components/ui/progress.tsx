@@ -20,14 +20,14 @@ const Progress = React.forwardRef<
                value && value < 0 ? "bg-red-500" : ""
             }`}
             style={{
-               transform: `translateX(-${100 - (Math.abs(value) || 0)}%)`,
+               transform: `translateX(-${100 - (Math.abs(value as number) || 0)}%)`,
             }}
          />
          {value && value < 0 && (
             <ProgressPrimitive.Indicator
                className="h-full flex-1 bg-destructive transition-all"
                style={{
-                  transform: `translateX(${100 - Math.abs(value)}%)`,
+                  transform: `translateX(${100 - Math.abs(value as number)}%)`,
                }}
             />
          )}
