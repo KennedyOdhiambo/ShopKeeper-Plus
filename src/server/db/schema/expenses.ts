@@ -1,0 +1,13 @@
+import { date, decimal, pgTable, text, uuid, varchar } from "drizzle-orm/pg-core"
+import { statusEnum, users } from "./users"
+
+export const expenses = pgTable("expenses", {
+   expenseId: uuid("expense_id").primaryKey().defaultRandom(),
+   userId: uuid("user_id").references(() => users.userId),
+   expenseAmount: decimal("expense_amount", { precision: 10, scale: 2 }),
+   expenseRecipient: varchar("expense_recipient", { length: 256 }),
+   expenseReference: varchar("expense_reference", { length: 256 }),
+   expenseDescription: text("expense_description"),
+   paymenDate: date("payment_date", { mode: "string" }),
+   status: statusEnum("status"),
+})
