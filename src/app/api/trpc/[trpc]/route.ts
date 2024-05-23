@@ -13,6 +13,7 @@ const createContext = async (req: NextRequest) => {
 }
 
 const handler = async (req: NextRequest) => {
+
   const context = await createContext(req)
   const response = await fetchRequestHandler({
     endpoint: '/api/trpc',
@@ -28,6 +29,8 @@ const handler = async (req: NextRequest) => {
   })
 
   return response
+
+ 
 }
 
 export { handler as GET, handler as POST }

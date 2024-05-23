@@ -1,4 +1,4 @@
-import { AppRouter } from "@/server"
+import { type AppRouter } from "@/server"
 import { createTRPCReact, loggerLink, unstable_httpBatchStreamLink } from "@trpc/react-query"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
@@ -36,7 +36,7 @@ export function TRPCReactProvider(props: { children: ReactNode }) {
 
             unstable_httpBatchStreamLink({
                transformer: SuperJSON,
-               url: getBaseUrl(),
+               url: getBaseUrl() + "/api/trpc",
                headers: () => {
                   const headers = new Headers()
                   headers.set("x-trpc-source", "nextjs-react")

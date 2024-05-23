@@ -1,6 +1,6 @@
 import SignupCard from "../components/SignupCard"
 
-export default function Signup() {
+export default async function Signup() {
    return (
       <main>
          <SignupCard />
