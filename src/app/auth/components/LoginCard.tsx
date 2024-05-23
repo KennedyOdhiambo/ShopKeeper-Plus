@@ -4,7 +4,7 @@ import DontHaveAnAccount from "./DontHaveAnAccount"
 
 export default function LoginCard() {
    return (
-      <Card className="m-auto max-w-sm border-none shadow-none">
+      <Card className="m-auto w-[400px] border-none shadow-none">
          <CardHeader className="text-center mb-1">
             <CardTitle className="text-2xl">Hi, Welcome Back</CardTitle>
             <CardDescription>Enter your phone number below to proceed</CardDescription>

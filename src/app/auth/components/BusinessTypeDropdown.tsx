@@ -1,3 +1,5 @@
+"use client"
+
 import { Label } from "@/components/ui/label"
 import {
    Select,
@@ -7,11 +9,16 @@ import {
    SelectValue,
 } from "@/components/ui/select"
 
-export default function BusinessTypeDropdown() {
+type DropdownProps = {
+   onSelect: (id: string) => void
+   error?: string
+}
+
+export default function BusinessTypeDropdown({ onSelect, error }: DropdownProps) {
    return (
       <div className="flex flex-col space-y-1.5">
          <Label htmlFor="businessType">Business Type</Label>
-         <Select>
+         <Select onValueChange={(value) => onSelect(value)}>
             <SelectTrigger id="businessType">
                <SelectValue placeholder="Select" />
             </SelectTrigger>
