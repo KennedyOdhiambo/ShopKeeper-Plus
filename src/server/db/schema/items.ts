@@ -1,5 +1,5 @@
 import { integer, pgTable, uuid, varchar } from "drizzle-orm/pg-core"
-import { statusEnum, users } from "./users"
+import {  users } from "./users"
 import { categories } from "./categories"
 
 export const items = pgTable("items", {
@@ -8,5 +8,5 @@ export const items = pgTable("items", {
    itemName: varchar("item_name", { length: 256 }).notNull(),
    categoryId: uuid("category_id").references(() => categories.categoryId),
    reorderLevel: integer("reorder_level"),
-   status: statusEnum("status"),
+   status: varchar('status').$type<'active' | 'deleted' | 'suspended'>().default('active')
 })

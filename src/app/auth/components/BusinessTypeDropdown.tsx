@@ -1,3 +1,5 @@
+"use client"
+
 import { Label } from "@/components/ui/label"
 import {
    Select,
@@ -6,18 +8,28 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/ui/select"
+import { api } from "@/trpc/client"
 
-export default function BusinessTypeDropdown() {
+type DropdownProps = {
+   onSelect: (id: string) => void
+   error?: string
+}
+
+export default function BusinessTypeDropdown({ onSelect }: DropdownProps) {
+   const { data: businessTypes } = api.businessTypes.listBusinessTypes.useQuery()
    return (
       <div className="flex flex-col space-y-1.5">
          <Label htmlFor="businessType">Business Type</Label>
-         <Select>
-            <SelectTrigger id="businessType">
+         <Select onValueChange={(value) => onSelect(value)}>
+            <SelectTrigger id="businessType" className="w-96 lg:w-80 xl:w-72 2xl:w-80">
                <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent position="popper">
-               <SelectItem value="next">Grocery Store</SelectItem>
-               <SelectItem value="sveltekit">Wines and Spirits</SelectItem>
+               {businessTypes?.map((type) => (
+                  <SelectItem key={type.businessTypeId} value={type.businessTypeId}>
+                     {type.businessTypeName}
+                  </SelectItem>
+               ))}
             </SelectContent>
          </Select>
       </div>

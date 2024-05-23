@@ -1,7 +1,7 @@
-import { date, pgEnum, pgTable, uuid, varchar } from "drizzle-orm/pg-core"
+import { date,pgTable, uuid, varchar } from "drizzle-orm/pg-core"
 import { businessTypes } from "./businessTypes"
 
-export const statusEnum = pgEnum("status", ["active", "deleted", "suspended"])
+
 
 export const users = pgTable("users", {
    userId: uuid("user_id").primaryKey().defaultRandom(),
@@ -12,5 +12,5 @@ export const users = pgTable("users", {
    businessTypeId: uuid("business_type_id").references(() => businessTypes.businessTypeId),
    businessLocation: varchar("business_location", { length: 256 }).notNull(),
    dateJoined: date("date_joined", { mode: "string" }),
-   status: statusEnum("status"),
+   status: varchar('status').$type<'active' | 'deleted' | 'suspended'>().default('active'),
 })

@@ -19,7 +19,7 @@ export default function AuthLayout({
       <section className="">
          <div className="flex flex-col h-screen">
             <AuthHeader />
-            <div className="flex-1 grid lg:grid-cols-2 items-center justify-items-center mb-20">
+            <div className="flex-1 grid xl:grid-cols-2 items-center justify-items-center mb-20">
                {authProcess === "login" ? login : signup}
                <LoginCarousel />
             </div>

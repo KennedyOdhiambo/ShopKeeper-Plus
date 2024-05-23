@@ -1,9 +1,9 @@
-import { date, decimal, pgEnum, pgTable, uuid } from "drizzle-orm/pg-core"
+import { date, decimal,  pgTable, uuid, varchar } from "drizzle-orm/pg-core"
 import { users } from "./users"
-import { paymentEnum, sales } from "./sales"
+import { sales } from "./sales"
 import { customers } from "./customers"
 
-export const transactionEnum = pgEnum("transaction_type", ["credit", "debt"])
+
 
 export const creditDebt = pgTable("credit_and_debt", {
    transactionId: uuid("credit_and_debt_id").primaryKey().defaultRandom(),
@@ -12,6 +12,6 @@ export const creditDebt = pgTable("credit_and_debt", {
    transactionDate: date("transaction_date", { mode: "string" }),
    customerId: uuid("customer_id").references(() => customers.customerId),
    transactionAmount: decimal("transaction_amount", { precision: 10, scale: 2 }),
-   transactionType: paymentEnum("transaction_type"),
-   status: transactionEnum("transaction_type"),
+   transactionType: varchar('transaction_type').$type<'credit' | 'debt'>(),
+   status: varchar('status').$type<'active' | 'deleted' | 'suspended'>().default('active')
 })
