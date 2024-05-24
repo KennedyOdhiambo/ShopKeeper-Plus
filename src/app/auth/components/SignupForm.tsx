@@ -6,9 +6,10 @@ import FormInput from "@/components/FormInput"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SignupData, signupSchema } from "@/validation/signupValidation"
-import { signupAction } from "@/actions/signupAction"
+import useSignup from "../@signup/hooks/useSignup"
 
 export default function SignupForm() {
+   const { createUser, isPending } = useSignup()
    const {
       register,
       setValue,
@@ -18,9 +19,8 @@ export default function SignupForm() {
       resolver: zodResolver(signupSchema),
    })
 
-   const onSubmit = async (data: SignupData) => {
-      const res = await signupAction(data)
-      console.log("res", res)
+   const onSubmit = (signupData: SignupData) => {
+      createUser(signupData)
    }
    return (
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -72,7 +72,9 @@ export default function SignupForm() {
          </div>
 
          <div className="w-full mt-10 flex items-end justify-end">
-            <Button className="w-full lg:w-fit">Complete signup</Button>
+            <Button disabled={isPending} className="w-full lg:w-fit">
+               {isPending ? "Processing..." : "Complete signup"}
+            </Button>
          </div>
       </form>
    )
