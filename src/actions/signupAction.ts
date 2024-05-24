@@ -21,15 +21,7 @@ export async function signupAction (formData: SignupData) {
     const salt = await bcrypt.genSalt()
     const encryptedPassword = await bcrypt.hash(formData.password, salt)
 
-    const insert = await db.insert(users).values({
-        fullName: formData.fullName,
-        phoneNumber: formData.phoneNumber,
-        password: encryptedPassword,
-        businessName: formData.businessName,
-        businessTypeId: formData.businessType,
-        businessLocation: formData.businessLocation,
-        dateJoined: String(new Date()),     
-    })
+ 
 
     return insert
 
