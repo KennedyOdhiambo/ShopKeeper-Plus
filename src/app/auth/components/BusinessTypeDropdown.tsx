@@ -15,8 +15,9 @@ type DropdownProps = {
    error?: string
 }
 
-export default function BusinessTypeDropdown({ onSelect }: DropdownProps) {
+export default function BusinessTypeDropdown({ onSelect, error }: DropdownProps) {
    const { data: businessTypes } = api.businessTypes.listBusinessTypes.useQuery()
+
    return (
       <div className="flex flex-col space-y-1.5">
          <Label htmlFor="businessType">Business Type</Label>
@@ -31,6 +32,7 @@ export default function BusinessTypeDropdown({ onSelect }: DropdownProps) {
                   </SelectItem>
                ))}
             </SelectContent>
+            <p className="text-destructive text-xs font-semibold">{error}</p>
          </Select>
       </div>
    )
