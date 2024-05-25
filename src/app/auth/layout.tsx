@@ -17,7 +17,7 @@ export default function AuthLayout({
    const authProcess = authContext?.runningProcess!
    return (
       <section className="">
-         <div className="flex flex-col h-screen">
+         <div className="flex flex-col h-svh">
             <AuthHeader />
             <div className="flex-1 grid xl:grid-cols-2 items-center justify-items-center mb-20">
                {authProcess === "login" ? login : signup}

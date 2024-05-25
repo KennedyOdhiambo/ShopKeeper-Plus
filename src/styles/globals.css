@@ -63,3 +63,30 @@
       @apply bg-background text-foreground;
    }
 }
+
+.loader {
+   position: relative;
+   width: 75px;
+   height: 75px;
+}
+
+.loader:before,
+.loader:after {
+   content: "";
+   border-radius: 50%;
+   position: absolute;
+   inset: 0;
+}
+.loader:after {
+   box-shadow: 0 4px 0 green inset;
+   animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+   0% {
+      transform: rotate(0);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
+}
