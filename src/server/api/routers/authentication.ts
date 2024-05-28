@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { users } from "../db/schema/users";
+import { users } from "../../db/schema/users";
 import { eq } from "drizzle-orm";
 import bcrypt from 'bcrypt'
 import { formatPhoneNumber } from "@/lib/utils";

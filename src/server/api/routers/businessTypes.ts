@@ -1,5 +1,5 @@
 
-import { businessTypes } from "../db/schema/businessTypes";
+import { businessTypes } from "../../db/schema/businessTypes";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const businessTypesRouter = createTRPCRouter({

@@ -15,6 +15,20 @@
       "when": 1716475988021,
       "tag": "0001_strange_medusa",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1716667256848,
+      "tag": "0002_moaning_talos",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1716822996469,
+      "tag": "0003_thin_monster_badoon",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,4 @@
-import { db } from "./db/db"
+import { db } from "../db/db"
 import { initTRPC } from '@trpc/server'
 import superjson from 'superjson'
 import { ZodError } from "zod"

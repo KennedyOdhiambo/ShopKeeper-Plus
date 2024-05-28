@@ -32,7 +32,7 @@ export default function BusinessTypeDropdown({ onSelect, error }: DropdownProps)
                   </SelectItem>
                ))}
             </SelectContent>
-            <p className="text-destructive text-xs font-semibold">{error}</p>
+            <p className="text-destructive text-xs font-thin">{error}</p>
          </Select>
       </div>
    )

@@ -1,4 +1,4 @@
-import { type AppRouter } from "@/server"
+import { type AppRouter } from "@/server/api"
 import { createTRPCReact, loggerLink, unstable_httpBatchStreamLink } from "@trpc/react-query"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
