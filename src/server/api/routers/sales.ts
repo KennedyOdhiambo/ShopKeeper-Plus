@@ -32,4 +32,18 @@ export const salesRouter = createTRPCRouter({
             sales: res,
          }
       }),
+
+   listMonthlySales: publicProcedure
+      .input(
+         z.object({
+            startDate: z.string().optional(),
+            endDate: z.string().optional(),
+         })
+      )
+      .query(async ({ ctx, input }) => {
+         const startDate = input.startDate ?? new Date(2010, 0, 1).toISOString()
+         const endDate = input.endDate ?? new Date().toISOString()
+
+         const res = await ctx.db.select().from
+      }),
 })

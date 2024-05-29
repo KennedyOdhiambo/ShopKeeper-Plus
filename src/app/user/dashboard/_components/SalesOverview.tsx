@@ -1,17 +1,11 @@
-"use client"
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import React from "react"
-import { SalesOverviewChart } from "./SalesOverviewChart"
-import { Button } from "@/components/ui/button"
-import { Link } from "react-transition-progress/next"
-import { ArrowUpRight } from "lucide-react"
-import useSalesData from "../_hooks/useSalesData"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import React from 'react'
+import { SalesOverviewChart } from './SalesOverviewChart'
+import { Button } from '@/components/ui/button'
+import { Link } from 'react-transition-progress/next'
+import { ArrowUpRight } from 'lucide-react'
 
 export default function SalesOverview() {
-   const data = useSalesData()
-
-   console.log(data)
    return (
       <Card className="col-span-4">
          <CardHeader className="flex flex-row items-center">
