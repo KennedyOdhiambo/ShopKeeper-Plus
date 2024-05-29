@@ -4,11 +4,16 @@ import { CreditCardIcon, DollarSign, HandCoins, LineChart } from "lucide-react"
 import DashboardStatisticsCard from "./DashboardStatisticsCard"
 import useSalesData from "../_hooks/useSalesData"
 import { formatMoney } from "@/lib/utils"
+import useListExpenses from "../_hooks/useListExpenses"
 
 export default function DashboardStats() {
    const { salesData } = useSalesData()
+   const { expenses } = useListExpenses()
    const salesRevenue = salesData?.reduce((acc, data) => acc + parseInt(data.totalCost ?? ""), 0)
-
+   const totalExpenditure = expenses?.reduce(
+      (acc, data) => acc + parseInt(data.expenseAmount ?? ""),
+      0
+   )
    return (
       <div className="flex flex-col gap-2">
          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -27,7 +32,7 @@ export default function DashboardStats() {
             <DashboardStatisticsCard
                cardTitle="Total Expenditure"
                cardIcon={<HandCoins className="size-4 text-muted-foreground" />}
-               numbers="Ksh 45,231.89"
+               numbers={formatMoney(totalExpenditure ?? 0)}
                description="+20.1% from last month"
             />
             <DashboardStatisticsCard
