@@ -1,7 +1,7 @@
 import { sales } from '@/server/db/schema/sales'
 import { createTRPCRouter, publicProcedure } from '../trpc'
 import { z } from 'zod'
-import { and, between, eq } from 'drizzle-orm'
+import { and, between, eq, sql } from 'drizzle-orm'
 
 export const salesRouter = createTRPCRouter({
    listSales: publicProcedure
@@ -44,6 +44,15 @@ export const salesRouter = createTRPCRouter({
          const startDate = input.startDate ?? new Date(2010, 0, 1).toISOString()
          const endDate = input.endDate ?? new Date().toISOString()
 
-         const res = await ctx.db.select().from
+         const totalMonthlySales = await ctx.db
+            .select({
+               month: sql<string>`to_char(${sales.salesDate}, 'YYYY-MM')`,
+               total: sql<number>`sum(${sales.totalCost})`,
+            })
+            .from(sales)
+            .where(between(sales.salesDate, startDate, endDate))
+            .groupBy(sql`to_char(${sales.salesDate}, 'YYYY-MM')`)
+
+         return totalMonthlySales
       }),
 })
