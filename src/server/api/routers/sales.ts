@@ -1,7 +1,7 @@
-import { sales } from "@/server/db/schema/sales"
-import { createTRPCRouter, publicProcedure } from "../trpc"
-import { z } from "zod"
-import { between } from "drizzle-orm"
+import { sales } from '@/server/db/schema/sales'
+import { createTRPCRouter, publicProcedure } from '../trpc'
+import { z } from 'zod'
+import { and, between, eq } from 'drizzle-orm'
 
 export const salesRouter = createTRPCRouter({
    listSales: publicProcedure
@@ -9,22 +9,26 @@ export const salesRouter = createTRPCRouter({
          z.object({
             startDate: z.string().optional(),
             endDate: z.string().optional(),
+            paymentMethod: z.enum(['cash', 'credit', 'mpesa']).optional(),
          })
       )
       .query(async ({ ctx, input }) => {
+         const startDate = input.startDate ?? new Date(2010, 0, 1).toISOString()
+         const endDate = input.endDate ?? new Date().toISOString()
+
+         const conditions = [between(sales.salesDate, startDate, endDate)]
+         if (input.paymentMethod) {
+            conditions.push(eq(sales.paymentOption, input.paymentMethod))
+         }
+
          const res = await ctx.db
             .select()
             .from(sales)
-            .where(
-               between(
-                  sales.salesDate,
-                  input.startDate ?? new Date(2010, 0, 1).toISOString(),
-                  input.endDate ?? new Date().toISOString()
-               )
-            )
+            .where(and(...conditions))
+            .execute()
 
          return {
-            status: "success" as const,
+            status: 'success' as const,
             sales: res,
          }
       }),

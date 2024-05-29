@@ -1,17 +1,23 @@
-"use client"
+'use client'
 
-import { CreditCardIcon, DollarSign, HandCoins, LineChart } from "lucide-react"
-import DashboardStatisticsCard from "./DashboardStatisticsCard"
-import useSalesData from "../_hooks/useSalesData"
-import { formatMoney } from "@/lib/utils"
-import useListExpenses from "../_hooks/useListExpenses"
+import { CreditCardIcon, DollarSign, HandCoins, LineChart } from 'lucide-react'
+import DashboardStatisticsCard from './DashboardStatisticsCard'
+import useSalesData from '../_hooks/useSalesData'
+import { formatMoney } from '@/lib/utils'
+import useListExpenses from '../_hooks/useListExpenses'
 
 export default function DashboardStats() {
    const { salesData } = useSalesData()
+   const { salesData: creditSales } = useSalesData('credit')
    const { expenses } = useListExpenses()
-   const salesRevenue = salesData?.reduce((acc, data) => acc + parseInt(data.totalCost ?? ""), 0)
+   const salesRevenue = salesData?.reduce((acc, data) => acc + parseInt(data.totalCost ?? ''), 0)
    const totalExpenditure = expenses?.reduce(
-      (acc, data) => acc + parseInt(data.expenseAmount ?? ""),
+      (acc, data) => acc + parseInt(data.expenseAmount ?? ''),
+      0
+   )
+   const netProfit = (salesRevenue ?? 0) - (totalExpenditure ?? 0)
+   const totalCreditSales = creditSales?.reduce(
+      (acc, data) => acc + parseInt(data.totalCost ?? ''),
       0
    )
    return (
@@ -20,7 +26,7 @@ export default function DashboardStats() {
             <DashboardStatisticsCard
                cardTitle="Net Profit"
                cardIcon={<DollarSign className="size-4 text-muted-foreground" />}
-               numbers="Ksh 45,231.89"
+               numbers={formatMoney(netProfit)}
                description="+20.1% from last month"
             />
             <DashboardStatisticsCard
@@ -38,7 +44,7 @@ export default function DashboardStats() {
             <DashboardStatisticsCard
                cardTitle="Pending Credit Sales"
                cardIcon={<CreditCardIcon className="size-4 text-muted-foreground" />}
-               numbers="Ksh 45,231.89"
+               numbers={formatMoney(totalCreditSales ?? 0)}
                description="+20.1% from last month"
             />
          </div>
