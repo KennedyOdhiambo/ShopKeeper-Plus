@@ -1,7 +1,14 @@
+"use client"
+
 import { CreditCardIcon, DollarSign, HandCoins, LineChart } from "lucide-react"
 import DashboardStatisticsCard from "./DashboardStatisticsCard"
+import useSalesData from "../_hooks/useSalesData"
+import { formatMoney } from "@/lib/utils"
 
 export default function DashboardStats() {
+   const { salesData } = useSalesData()
+   const salesRevenue = salesData?.reduce((acc, data) => acc + parseInt(data.totalCost ?? ""), 0)
+
    return (
       <div className="flex flex-col gap-2">
          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -10,28 +17,24 @@ export default function DashboardStats() {
                cardIcon={<DollarSign className="size-4 text-muted-foreground" />}
                numbers="Ksh 45,231.89"
                description="+20.1% from last month"
-               progressValue={-50}
             />
             <DashboardStatisticsCard
                cardTitle="Sales Revenue"
                cardIcon={<LineChart className="size-4 text-muted-foreground" />}
-               numbers="Ksh 45,231.89"
+               numbers={formatMoney(salesRevenue ?? 0)}
                description="+20.1% from last month"
-               progressValue={100}
             />
             <DashboardStatisticsCard
                cardTitle="Total Expenditure"
                cardIcon={<HandCoins className="size-4 text-muted-foreground" />}
                numbers="Ksh 45,231.89"
                description="+20.1% from last month"
-               progressValue={80}
             />
             <DashboardStatisticsCard
                cardTitle="Pending Credit Sales"
                cardIcon={<CreditCardIcon className="size-4 text-muted-foreground" />}
                numbers="Ksh 45,231.89"
                description="+20.1% from last month"
-               progressValue={10}
             />
          </div>
       </div>

@@ -1,5 +1,4 @@
 import React from "react"
-
 import DashboardPageHeader from "./_components/DashboardPageHeader"
 import DashboardStats from "./_components/DashboardStats"
 import SalesOverview from "./_components/SalesOverview"
@@ -9,7 +8,6 @@ export default async function Dashboard() {
    return (
       <main className="min-w-full pb-10">
          <DashboardPageHeader />
-
          <div className="flex flex-col gap-4">
             <DashboardStats />
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
