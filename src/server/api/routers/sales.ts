@@ -2,6 +2,7 @@ import { sales } from '@/server/db/schema/sales'
 import { createTRPCRouter, publicProcedure } from '../trpc'
 import { z } from 'zod'
 import { and, between, eq, sql } from 'drizzle-orm'
+import { customers } from '@/server/db/schema/customers'
 
 export const salesRouter = createTRPCRouter({
    listSales: publicProcedure
@@ -25,6 +26,7 @@ export const salesRouter = createTRPCRouter({
             .select()
             .from(sales)
             .where(and(...conditions))
+            .rightJoin(customers, eq(sales.customerId, customers.customerId))
             .execute()
 
          return {

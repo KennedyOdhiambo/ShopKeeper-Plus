@@ -21,7 +21,7 @@ export default function SalesOverview() {
             </Button>
          </CardHeader>
 
-         <CardContent className="pl-2">
+         <CardContent className="">
             <SalesOverviewChart />
          </CardContent>
       </Card>

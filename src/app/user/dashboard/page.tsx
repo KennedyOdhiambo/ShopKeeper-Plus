@@ -1,8 +1,8 @@
-import React from "react"
-import DashboardPageHeader from "./_components/DashboardPageHeader"
-import DashboardStats from "./_components/DashboardStats"
-import SalesOverview from "./_components/SalesOverview"
-import RecentSalesContainer from "./_components/RecentSalesContainer"
+import React from 'react'
+import DashboardPageHeader from './components/DashboardPageHeader'
+import DashboardStats from './components/DashboardStats'
+import SalesOverview from './components/SalesOverview'
+import RecentSalesContainer from './components/RecentSalesContainer'
 
 export default async function Dashboard() {
    return (

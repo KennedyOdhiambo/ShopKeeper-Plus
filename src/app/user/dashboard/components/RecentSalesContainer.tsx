@@ -1,6 +1,6 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import React from "react"
-import { RecentSales } from "./RecentSales"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import React from 'react'
+import { RecentSales } from './RecentSales'
 
 export default function RecentSalesContainer() {
    return (
