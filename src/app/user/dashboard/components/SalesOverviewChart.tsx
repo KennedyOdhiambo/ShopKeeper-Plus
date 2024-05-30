@@ -1,10 +1,13 @@
 'use client'
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-import useMonthlySales from '../_hooks/useMonthlySales'
+import useMonthlySales from '../hooks/useMonthlySales'
+import ChartLoadingSkeleton from './ChartLoadingSkeleton'
 
 export function SalesOverviewChart() {
-   const { monthlySales } = useMonthlySales()
+   const { monthlySales, isPending } = useMonthlySales()
+
+   if (isPending) return <ChartLoadingSkeleton />
 
    return (
       <ResponsiveContainer width="100%" height={300}>

@@ -3,7 +3,7 @@ import { Card } from './ui/card'
 
 export function SkeletonCard() {
    return (
-      <Card>
+      <Card className=" border-none shadow-none">
          <Skeleton className="h-[125px] w-full" />
       </Card>
    )

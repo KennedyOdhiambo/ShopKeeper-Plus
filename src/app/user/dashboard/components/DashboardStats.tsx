@@ -2,22 +2,22 @@
 
 import { CreditCardIcon, DollarSign, HandCoins, LineChart } from 'lucide-react'
 import DashboardStatisticsCard from './DashboardStatisticsCard'
-import useSalesData from '../_hooks/useSalesData'
+import useSalesData from '../hooks/useSalesData'
 import { formatMoney } from '@/lib/utils'
-import useListExpenses from '../_hooks/useListExpenses'
+import useListExpenses from '../hooks/useListExpenses'
 
 export default function DashboardStats() {
    const { salesData, isPending: salesPending } = useSalesData()
    const { salesData: creditSales, isPending: creditPending } = useSalesData('credit')
    const { expenses, isPending: expensePending } = useListExpenses()
-   const salesRevenue = salesData?.reduce((acc, data) => acc + parseInt(data.totalCost ?? ''), 0)
+   const salesRevenue = salesData?.reduce((acc, data) => acc + parseInt(data?.totalCost ?? ''), 0)
    const totalExpenditure = expenses?.reduce(
       (acc, data) => acc + parseInt(data.expenseAmount ?? ''),
       0
    )
    const netProfit = (salesRevenue ?? 0) - (totalExpenditure ?? 0)
    const totalCreditSales = creditSales?.reduce(
-      (acc, data) => acc + parseInt(data.totalCost ?? ''),
+      (acc, data) => acc + parseInt(data?.totalCost ?? ''),
       0
    )
    return (

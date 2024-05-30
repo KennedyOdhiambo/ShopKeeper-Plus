@@ -12,7 +12,8 @@ export default function useSalesData(paymentMethod?: 'cash' | 'credit' | 'mpesa'
       paymentMethod: paymentMethod,
    })
 
-   const salesData = data?.sales
+   const salesData = data?.sales.map((object) => object.sales)
+   const salesDataWithCustomers = data?.sales
 
-   return { salesData, isPending }
+   return { salesData, isPending, salesDataWithCustomers }
 }
