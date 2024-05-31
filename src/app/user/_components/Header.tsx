@@ -1,14 +1,15 @@
-import { Bell } from "lucide-react"
-import { ModeToggle } from "../../../components/ModeToggle"
-import SidebarSheet from "./SidebarSheet"
-import { Avatar, AvatarFallback } from "../../../components/ui/avatar"
-import { Card, CardContent } from "../../../components/ui/card"
+import { Bell } from 'lucide-react'
+import { ModeToggle } from '../../../components/ModeToggle'
+import SidebarSheet from './SidebarSheet'
+import { Avatar, AvatarFallback } from '../../../components/ui/avatar'
+import { Card, CardContent } from '../../../components/ui/card'
 import {
    Tooltip,
    TooltipContent,
    TooltipProvider,
    TooltipTrigger,
-} from "../../../components/ui/tooltip"
+} from '../../../components/ui/tooltip'
+import CreateNew from './CreateNew'
 
 export default function Header() {
    return (
@@ -16,7 +17,8 @@ export default function Header() {
          <CardContent className="flex items-center justify-between p-0 px-5 ">
             <SidebarSheet />
 
-            <div className="flex flex-row gap-2 justify-end w-full items-center">
+            <div className="flex flex-row gap-3 justify-end w-full items-center">
+               <CreateNew />
                <TooltipProvider>
                   <Tooltip>
                      <TooltipTrigger>
