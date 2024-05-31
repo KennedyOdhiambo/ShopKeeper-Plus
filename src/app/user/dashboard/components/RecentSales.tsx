@@ -8,7 +8,6 @@ import RecentSalesSkeleton from './RecentSalesSkeleton'
 export function RecentSales() {
    const { salesDataWithCustomers, isPending } = useSalesData()
    const recentSales = salesDataWithCustomers?.splice(0, 5)
-   console.log(recentSales)
 
    if (isPending) return <RecentSalesSkeleton />
    return (
