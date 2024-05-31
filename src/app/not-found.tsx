@@ -4,7 +4,7 @@ import { Link } from 'react-transition-progress/next'
 
 export default function NotFound() {
    return (
-      <div className="h-screen w-screen flex flex-col items-center px-5 justify-center">
+      <div className=" h-dvh w-dvw flex flex-col items-center px-5 justify-center">
          <Image src={maintenance} alt="under construction" priority />
          <p className="mx-auto py-5 text-center font-semibold">
             Sorry, the page you requested for is still under maintenance, please check back soon!.
