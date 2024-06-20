@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import {
    DropdownMenu,
    DropdownMenuContent,
@@ -6,17 +6,17 @@ import {
    DropdownMenuLabel,
    DropdownMenuSeparator,
    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { CirclePlus, Plus } from 'lucide-react'
-import { Link } from 'react-transition-progress/next'
+} from '@/components/ui/dropdown-menu';
+import { CirclePlus, Plus } from 'lucide-react';
+import { Link } from 'react-transition-progress/next';
 
 const dropdownOptions = [
-   { label: 'Sale', href: '/user/sales/new' },
+   { label: 'Sale', href: '/user/sales' },
    { label: 'Product', href: '/user/products/new' },
    { label: 'Inventory', href: '/user/inventory/new' },
    { label: 'Customer', href: '/user/customers/new' },
    { label: 'Expense', href: '/user/expenses/new' },
-]
+];
 
 export default function CreateNew() {
    return (
@@ -41,5 +41,5 @@ export default function CreateNew() {
          <DropdownMenuSeparator />
          <DropdownMenuLabel></DropdownMenuLabel>
       </DropdownMenu>
-   )
+   );
 }
