@@ -11,7 +11,7 @@ export default function NewSalesOptions({ customers }: { customers: Array<Select
       id: customer.customerId,
       value: customer.customerName,
    }));
-   console.log(customers);
+
    const handleSelectDate = (date: Date) => {
       console.log(date);
    };
@@ -24,7 +24,7 @@ export default function NewSalesOptions({ customers }: { customers: Array<Select
             <div className="inline-flex gap-1.5 items-end">
                <CustomSelect
                   onSelect={(selected) => console.log(selected)}
-                  options={customerDropdownOptions ?? []}
+                  options={customerDropdownOptions}
                   placeholder="Customer"
                />
                <NewCustomer />
