@@ -1,15 +1,15 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ReactNode } from 'react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ReactNode } from 'react';
 
 type SalesProps = {
-   allSales: ReactNode
-   newSales: ReactNode
-}
+   allSales: ReactNode;
+   newSales: ReactNode;
+};
 
 export default function SalesLayout({ allSales, newSales }: SalesProps) {
    return (
-      <section className="mt-10 p-2 flex flex-col gap-4 w-full">
-         <div className="p-1">
+      <section className="mt-6 flex flex-col gap-4 w-full">
+         <div className="">
             <h2 className="text-3xl font-bold tracking-tight">Sales</h2>
          </div>
          <Tabs defaultValue="allSales" className="flex flex-col gap-4 w-full">
@@ -24,5 +24,5 @@ export default function SalesLayout({ allSales, newSales }: SalesProps) {
             </div>
          </Tabs>
       </section>
-   )
+   );
 }

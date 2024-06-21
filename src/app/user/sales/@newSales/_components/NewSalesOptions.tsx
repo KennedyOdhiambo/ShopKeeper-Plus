@@ -4,8 +4,14 @@ import CustomSelect from '@/components/CustomSelect';
 import { Card, CardContent } from '@/components/ui/card';
 import NewCustomer from './NewCustomer';
 import DatePicker from '@/components/DatePicker';
+import { SelectCustomers } from '@/server/db/schema/customers';
 
-export default function NewSalesOptions() {
+export default function NewSalesOptions({ customers }: { customers: Array<SelectCustomers> }) {
+   const customerDropdownOptions = customers.map((customer) => ({
+      id: customer.customerId,
+      value: customer.customerName,
+   }));
+
    const handleSelectDate = (date: Date) => {
       console.log(date);
    };
@@ -16,7 +22,11 @@ export default function NewSalesOptions() {
             <DatePicker onSelect={handleSelectDate} />
             <CustomSelect onSelect={(selected) => console.log(selected)} options={[]} placeholder="Payment Option" />
             <div className="inline-flex gap-1.5 items-end">
-               <CustomSelect onSelect={(selected) => console.log(selected)} options={[]} placeholder="Customer" />
+               <CustomSelect
+                  onSelect={(selected) => console.log(selected)}
+                  options={customerDropdownOptions}
+                  placeholder="Customer"
+               />
                <NewCustomer />
             </div>
          </CardContent>

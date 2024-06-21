@@ -1,5 +1,6 @@
-import { pgTable, uuid, varchar } from 'drizzle-orm/pg-core'
-import { users } from './users'
+import { pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
+import { users } from './users';
+import { InferSelectModel } from 'drizzle-orm';
 
 export const customers = pgTable('customers', {
    customerId: uuid('customer_id').primaryKey().defaultRandom(),
@@ -8,4 +9,6 @@ export const customers = pgTable('customers', {
    customerContact: varchar('customer_contact', { length: 256 }),
    status: varchar('status').$type<'active' | 'deleted' | 'suspended'>().default('active'),
    kraPin: varchar('kra_pin', { length: 256 }),
-})
+});
+
+export type SelectCustomers = InferSelectModel<typeof customers>;
