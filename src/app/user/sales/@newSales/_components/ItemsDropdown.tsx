@@ -23,7 +23,7 @@ export default function ItemsDropdown({ onSelect, rowId, label, className }: Ite
       itemName: item.itemName,
    }));
    return (
-      <div className={`${className}`}>
+      <div className={`${className} w-[260px]`}>
          {label && <Label>Items</Label>}
          <Select onValueChange={handleSelect}>
             <SelectTrigger>
