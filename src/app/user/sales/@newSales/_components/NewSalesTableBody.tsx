@@ -9,6 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Button } from '@/components/ui/button';
 import { Delete } from 'lucide-react';
 import { api } from '@/trpc/client';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type NewSalesTableBodyProps = {
    rowCount: Array<{ rowId: number }>;
@@ -21,11 +22,14 @@ type SalesItems = Record<string, Item>;
 export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSalesTableBodyProps) {
    const [salesItems, setSalesItems] = useState<SalesItems | null>(null);
    const [currentItemId, setCurrentItemId] = useState('');
+   const [loadingRows, setLoadingRows] = useState<Record<string, boolean>>({});
 
    const { data: quantity, refetch } = api.items.quantityInStock.useQuery(
       { itemId: currentItemId },
       { enabled: !!currentItemId }
    );
+
+   console.log(salesItems);
 
    useEffect(() => {
       if (currentItemId) {
@@ -39,6 +43,7 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
          setSalesItems((prevItems) => {
             const updatedItems = prevItems || {};
             const rowId = Object.keys(updatedItems).find((key) => updatedItems[key].itemId === currentItemId) ?? '';
+            setLoadingRows((prev) => ({ ...prev, [rowId]: false }));
 
             return {
                ...prevItems,
@@ -51,8 +56,9 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
       }
    }, [quantity, currentItemId]);
 
-   const handleSelectItem = async (rowId: string, itemId: string) => {
+   const handleSelectItem = (rowId: string, itemId: string) => {
       setCurrentItemId(itemId);
+      setLoadingRows((prev) => ({ ...prev, [rowId]: true }));
       setSalesItems((prevItems) => {
          const updatedItems = prevItems || {};
          return {
@@ -61,6 +67,19 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
                ...updatedItems[rowId],
                itemId: itemId,
                quantityInStock: '',
+            },
+         };
+      });
+   };
+
+   const handleQuantityChange = (rowId: string, value: string) => {
+      setSalesItems((prevItems) => {
+         if (!prevItems) return null;
+         return {
+            ...prevItems,
+            [rowId]: {
+               ...prevItems[rowId],
+               quantity: value,
             },
          };
       });
@@ -84,10 +103,24 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
                <TableCell className="py-2.5">
                   <ItemsDropdown rowId={String(row.rowId)} onSelect={handleSelectItem} />
                </TableCell>
-               <TableCell className="py-2.5">{salesItems ? salesItems[row.rowId]?.quantityInStock : 0}</TableCell>
-               <TableCell className="py-2.5 max-w-[150px] items-center text-center">
-                  <Input type="number" />
+
+               <TableCell className="py-2.5 flex justify-center items-end">
+                  {loadingRows[row.rowId] ? (
+                     <Skeleton className=" size-8 rounded-full" />
+                  ) : (
+                     salesItems?.[row.rowId]?.quantityInStock || ''
+                  )}
                </TableCell>
+
+               <TableCell className="py-2.5 max-w-[150px] items-center text-center">
+                  <Input
+                     type="number"
+                     onChange={(e) => handleQuantityChange(String(row.rowId), e.target.value)}
+                     min="0"
+                     max={salesItems?.[row.rowId]?.quantityInStock || ''}
+                  />
+               </TableCell>
+
                <TableCell className="py-2.5">{formatMoney(100)}</TableCell>
                <TableCell className="py-2.5">{formatMoney(100)}</TableCell>
                <TableCell className="py-2.5">
@@ -98,7 +131,7 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
                               onClick={() => onDeleteRow(row.rowId)}
                               variant={'outline'}
                               size={'icon'}
-                              className="border-2.5 hover:bg-destructive hover:text-white transition-colors duration-200 rounded-lg"
+                              className="border-2.5 hover:bg-destructive hover:text-white transition-colors duration-200 rounded-lg "
                            >
                               <Delete />
                            </Button>

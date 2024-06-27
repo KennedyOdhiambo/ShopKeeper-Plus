@@ -29,6 +29,7 @@ export const itemsRouter = createTRPCRouter({
       )
       .query(async ({ ctx, input }) => {
          const { itemId } = input;
+         // const uom = await ctx.db.select().from(items).where(eq(items.itemId, itemId))
          const itemInventory = await ctx.db
             .select()
             .from(inventory)
