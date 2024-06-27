@@ -16,7 +16,7 @@ type SelectProps = {
 
 export default function CustomSelect({ onSelect, selectedValue, placeholder, options, label, className }: SelectProps) {
    return (
-      <div className={`${className} flex flex-col space-y-2 w-[300px]`}>
+      <div className={`${className} flex flex-col space-y-2 w-[280px]`}>
          <Label>{label}</Label>
          <Select onValueChange={(value) => onSelect(value)}>
             <SelectTrigger>
