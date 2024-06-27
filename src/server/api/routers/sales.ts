@@ -1,8 +1,8 @@
-import { sales } from '@/server/db/schema/sales'
-import { createTRPCRouter, publicProcedure } from '../trpc'
-import { z } from 'zod'
-import { and, between, eq, sql } from 'drizzle-orm'
-import { customers } from '@/server/db/schema/customers'
+import { sales } from '@/server/db/schema/sales';
+import { createTRPCRouter, publicProcedure } from '../trpc';
+import { z } from 'zod';
+import { and, between, eq, sql } from 'drizzle-orm';
+import { customers } from '@/server/db/schema/customers';
 
 export const salesRouter = createTRPCRouter({
    listSales: publicProcedure
@@ -14,12 +14,12 @@ export const salesRouter = createTRPCRouter({
          })
       )
       .query(async ({ ctx, input }) => {
-         const startDate = input.startDate ?? new Date(2010, 0, 1).toISOString()
-         const endDate = input.endDate ?? new Date().toISOString()
+         const startDate = input.startDate ?? new Date(2010, 0, 1).toISOString();
+         const endDate = input.endDate ?? new Date().toISOString();
 
-         const conditions = [between(sales.salesDate, startDate, endDate)]
+         const conditions = [between(sales.salesDate, startDate, endDate)];
          if (input.paymentMethod) {
-            conditions.push(eq(sales.paymentOption, input.paymentMethod))
+            conditions.push(eq(sales.paymentOption, input.paymentMethod));
          }
 
          const res = await ctx.db
@@ -27,12 +27,12 @@ export const salesRouter = createTRPCRouter({
             .from(sales)
             .where(and(...conditions))
             .rightJoin(customers, eq(sales.customerId, customers.customerId))
-            .execute()
+            .execute();
 
          return {
             status: 'success' as const,
             sales: res,
-         }
+         };
       }),
 
    listMonthlySales: publicProcedure
@@ -43,8 +43,8 @@ export const salesRouter = createTRPCRouter({
          })
       )
       .query(async ({ ctx, input }) => {
-         const startDate = input.startDate ?? new Date(2010, 0, 1).toISOString()
-         const endDate = input.endDate ?? new Date().toISOString()
+         const startDate = input.startDate ?? new Date(2010, 0, 1).toISOString();
+         const endDate = input.endDate ?? new Date().toISOString();
 
          const totalMonthlySales = await ctx.db
             .select({
@@ -53,8 +53,8 @@ export const salesRouter = createTRPCRouter({
             })
             .from(sales)
             .where(between(sales.salesDate, startDate, endDate))
-            .groupBy(sql`to_char(${sales.salesDate}, 'YYYY-MM')`)
+            .groupBy(sql`to_char(${sales.salesDate}, 'YYYY-MM')`);
 
-         return totalMonthlySales
+         return totalMonthlySales;
       }),
-})
+});

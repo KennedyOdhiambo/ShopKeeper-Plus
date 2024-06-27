@@ -33,6 +33,17 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
       });
    };
 
+   const onDeleteRow = (rowId: number) => {
+      setSalesItems((prevItems) => {
+         if (!prevItems) return null;
+
+         const { [rowId]: deletedItem, ...remainingItems } = prevItems;
+         return remainingItems;
+      });
+
+      handleDeleteRow(rowId);
+   };
+
    console.log(salesItems);
    return (
       <TableBody>
@@ -52,7 +63,7 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
                      <Tooltip>
                         <TooltipTrigger asChild>
                            <Button
-                              onClick={() => handleDeleteRow(row.rowId)}
+                              onClick={() => onDeleteRow(row.rowId)}
                               variant={'outline'}
                               size={'icon'}
                               className=" border-2.5 hover:bg-destructive hover:text-white transition-colors duration-200 rounded-lg"
