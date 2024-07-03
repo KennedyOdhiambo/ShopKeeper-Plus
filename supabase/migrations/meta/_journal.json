@@ -43,6 +43,13 @@
       "when": 1718944836877,
       "tag": "0005_left_vision",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1719475295615,
+      "tag": "0006_left_white_queen",
+      "breakpoints": true
     }
   ]
 }
