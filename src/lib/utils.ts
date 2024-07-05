@@ -18,8 +18,8 @@ export function formatPhoneNumber(phone: string) {
    return phoneNumber;
 }
 
-export function formatMoney(amount: number) {
-   return new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES' }).format(amount);
+export function formatMoney(amount: number | string) {
+   return new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES' }).format(+amount);
 }
 
 export function getFirstLetters(str: string, numWords = Infinity) {

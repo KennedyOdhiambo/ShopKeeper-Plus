@@ -50,6 +50,20 @@
       "when": 1719475295615,
       "tag": "0006_left_white_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1720158284619,
+      "tag": "0007_flippant_darwin",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1720158948722,
+      "tag": "0008_light_bedlam",
+      "breakpoints": true
     }
   ]
 }

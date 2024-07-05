@@ -24,9 +24,9 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
    const [currentItemId, setCurrentItemId] = useState('');
    const [loadingRows, setLoadingRows] = useState<Record<string, boolean>>({});
 
-   const { data: quantity, refetch } = api.items.quantityInStock.useQuery(
+   const { data: inventoryDetails, refetch } = api.items.quantityInStock.useQuery(
       { itemId: currentItemId },
-      { enabled: !!currentItemId }
+      { enabled: !!currentItemId },
    );
 
    console.log(salesItems);
@@ -39,7 +39,7 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
    }, [currentItemId]);
 
    useEffect(() => {
-      if (quantity !== undefined && currentItemId) {
+      if (inventoryDetails !== undefined && currentItemId) {
          setSalesItems((prevItems) => {
             const updatedItems = prevItems || {};
             const rowId = Object.keys(updatedItems).find((key) => updatedItems[key].itemId === currentItemId) ?? '';
@@ -49,12 +49,13 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
                ...prevItems,
                [rowId]: {
                   ...updatedItems[rowId],
-                  quantityInStock: quantity.toString(),
+                  quantityInStock: `${inventoryDetails.quantityInStock.toString()} ${inventoryDetails.uom}`,
+                  unitCost: inventoryDetails.sellingPrice ?? '',
                },
             };
          });
       }
-   }, [quantity, currentItemId]);
+   }, [currentItemId, inventoryDetails]);
 
    const handleSelectItem = (rowId: string, itemId: string) => {
       setCurrentItemId(itemId);
@@ -104,25 +105,30 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
                   <ItemsDropdown rowId={String(row.rowId)} onSelect={handleSelectItem} />
                </TableCell>
 
-               <TableCell className="py-2.5 flex justify-center items-end">
+               <TableCell className="mt-2 flex items-end justify-center py-2.5">
                   {loadingRows[row.rowId] ? (
-                     <Skeleton className=" size-8 rounded-full" />
+                     <Skeleton className="size-8 rounded-full" />
                   ) : (
                      salesItems?.[row.rowId]?.quantityInStock || ''
                   )}
                </TableCell>
 
-               <TableCell className="py-2.5 max-w-[150px] items-center text-center">
+               <TableCell className="max-w-[150px] items-center py-2.5 text-center">
                   <Input
                      type="number"
+                     className="text-center"
                      onChange={(e) => handleQuantityChange(String(row.rowId), e.target.value)}
                      min="0"
                      max={salesItems?.[row.rowId]?.quantityInStock || ''}
                   />
                </TableCell>
 
-               <TableCell className="py-2.5">{formatMoney(100)}</TableCell>
-               <TableCell className="py-2.5">{formatMoney(100)}</TableCell>
+               <TableCell className="py-2.5">{formatMoney(salesItems?.[row.rowId]?.unitCost ?? 0)}</TableCell>
+               <TableCell className="py-2.5">
+                  {formatMoney(
+                     Number(salesItems?.[row.rowId]?.unitCost ?? 0) * Number(salesItems?.[row.rowId]?.quantity ?? 0),
+                  )}
+               </TableCell>
                <TableCell className="py-2.5">
                   <TooltipProvider>
                      <Tooltip>
@@ -131,7 +137,7 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
                               onClick={() => onDeleteRow(row.rowId)}
                               variant={'outline'}
                               size={'icon'}
-                              className="border-2.5 hover:bg-destructive hover:text-white transition-colors duration-200 rounded-lg "
+                              className="border-2.5 rounded-lg transition-colors duration-200 hover:bg-destructive hover:text-white"
                            >
                               <Delete />
                            </Button>
