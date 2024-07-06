@@ -29,8 +29,9 @@ export default function SubmitSales() {
    };
 
    return (
-      <div>
+      <div className="mb-2">
          <Button
+            size={'sm'}
             className="disabled:cursor-not-allowed"
             disabled={isPending || !items.length || !customer || customer.length < 2}
             onClick={handleSubmit}
