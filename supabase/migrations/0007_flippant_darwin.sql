@@ -1,0 +1,1 @@
+ALTER TABLE "inventory" RENAME COLUMN "quantity_stocked" TO "quantity_in_stock";

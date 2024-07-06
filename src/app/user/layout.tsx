@@ -1,15 +1,15 @@
-import Header from '@/app/user/_components/Header'
-import Sidebar from '@/app/user/_components/Sidebar'
-import React, { ReactNode } from 'react'
+import Header from '@/app/user/_components/Header';
+import Sidebar from '@/app/user/_components/Sidebar';
+import React, { ReactNode } from 'react';
 
 export default function layout({ children }: { children: ReactNode }) {
    return (
-      <section className="flex row">
+      <section className="row flex">
          <Sidebar />
-         <div className="lg:ms-60 w-dvw flex">
+         <div className="flex w-dvw lg:ms-60">
             <Header />
-            <div className="px-6 mt-10 flex-1">{children}</div>
+            <div className="mt-10 flex-1 px-6">{children}</div>
          </div>
       </section>
-   )
+   );
 }

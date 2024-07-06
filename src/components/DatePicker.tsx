@@ -5,28 +5,36 @@ import { Button } from './ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
-import { useState } from 'react';
 import { Calendar } from './ui/calendar';
+import { parseAsIsoDateTime, useQueryState } from 'nuqs';
 
-export default function DatePicker({ onSelect }: { onSelect: (date: Date) => void }) {
-   const [date, setDate] = useState<Date>();
+export default function DatePicker() {
+   const [selectedDate, setSelectedDate] = useQueryState('date', parseAsIsoDateTime);
+
    const handleSelectDate = (date: Date) => {
-      onSelect(date);
-      setDate(date);
+      setSelectedDate(date);
    };
    return (
       <Popover>
          <PopoverTrigger asChild>
             <Button
                variant={'outline'}
-               className={cn('w-[280px] justify-start text-left font-normal', !date && 'text-muted-foreground')}
+               className={cn(
+                  'w-[280px] justify-start text-left font-normal',
+                  !selectedDate && 'text-muted-foreground',
+               )}
             >
                <CalendarIcon className="mr-2 h-4 w-4" />
-               {date ? format(date, 'PPP') : <span>Sales Date</span>}
+               {selectedDate ? format(selectedDate, 'PPP') : <span>Sales Date</span>}
             </Button>
          </PopoverTrigger>
          <PopoverContent className="w-auto p-0">
-            <Calendar mode="single" selected={date} onSelect={(date) => handleSelectDate(date!)} initialFocus />
+            <Calendar
+               mode="single"
+               selected={selectedDate ?? new Date()}
+               onSelect={(date) => handleSelectDate(date ?? new Date())}
+               initialFocus
+            />
          </PopoverContent>
       </Popover>
    );

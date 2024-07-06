@@ -1,32 +1,32 @@
-import { CardContent } from '@/components/ui/card'
-import { Link } from 'react-transition-progress/next'
-import logo from '../../../../public/logo.svg'
-import Image from 'next/image'
-import { Menubar, MenubarMenu, MenubarSeparator } from '@/components/ui/menubar'
-import ExpandableMenuItem from './ExpandableMenuItem'
-import { Banknote, CreditCard, LayoutDashboard, Wallet, Warehouse } from 'lucide-react'
+import { CardContent } from '@/components/ui/card';
+import { Link } from 'react-transition-progress/next';
+import logo from '../../../../public/logo.svg';
+import Image from 'next/image';
+import { Menubar, MenubarMenu, MenubarSeparator } from '@/components/ui/menubar';
+import ExpandableMenuItem from './ExpandableMenuItem';
+import { Banknote, CreditCard, LayoutDashboard, Wallet, Warehouse } from 'lucide-react';
 
 export default function SidebarContent() {
    return (
-      <>
-         <CardContent className="flex border-b pt-3 pb-4 items-start justify-start px-6 mt-2">
-            <Image src={logo} alt="logo" className=" h-3 w-fit" priority />
+      <div className="">
+         <CardContent className="mt-2 flex items-start justify-start border-b px-6 pb-4 pt-3">
+            <Image src={logo} alt="logo" className="h-3 w-fit" priority />
          </CardContent>
 
-         <Menubar className=" border-none flex flex-col py-4 px-2">
+         <Menubar className="flex flex-col border-none px-2 py-4">
             <MenubarMenu>
                <Link
                   href={'/user/dashboard'}
-                  className="inline-flex items-center gap-3 whitespace-nowrap rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground w-full justify-start h-10 px-4 py-2"
+                  className="inline-flex h-10 w-full items-center justify-start gap-3 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                >
-                  <LayoutDashboard strokeWidth={'1.5px'} className="size-5 " />
+                  <LayoutDashboard strokeWidth={'1.5px'} className="size-5" />
                   Dashboard
                </Link>
             </MenubarMenu>
             <MenubarSeparator />
             <ExpandableMenuItem
                title="Sales"
-               icon={<Banknote strokeWidth={'1.5px'} className=" text-accent-foreground size-5" />}
+               icon={<Banknote strokeWidth={'1.5px'} className="size-5 text-accent-foreground" />}
                menuOptions={[
                   { href: '/user/sales', title: 'All sales' },
                   { href: '/user/sales/customers', title: 'Customers' },
@@ -34,7 +34,7 @@ export default function SidebarContent() {
             />
             <ExpandableMenuItem
                title=" Inventory"
-               icon={<Warehouse strokeWidth={'1.5px'} className="text-accent-foreground size-5" />}
+               icon={<Warehouse strokeWidth={'1.5px'} className="size-5 text-accent-foreground" />}
                menuOptions={[
                   { href: '/user/inventory/products-and-services', title: 'Products and Services' },
                   { href: '/user/inventory/categories', title: 'Categories' },
@@ -43,7 +43,7 @@ export default function SidebarContent() {
             />
             <ExpandableMenuItem
                title=" Expenses"
-               icon={<Wallet strokeWidth={'1.5px'} className="text-accent-foreground size-5" />}
+               icon={<Wallet strokeWidth={'1.5px'} className="size-5 text-accent-foreground" />}
                menuOptions={[
                   { href: '/user/expenses/general', title: 'General Expenses' },
                   { href: '/user/expenses/suppliers', title: 'Suppliers' },
@@ -51,13 +51,13 @@ export default function SidebarContent() {
             />
             <ExpandableMenuItem
                title="Credit & Debt"
-               icon={<CreditCard strokeWidth={'1.5px'} className="text-accent-foreground size-5" />}
+               icon={<CreditCard strokeWidth={'1.5px'} className="size-5 text-accent-foreground" />}
                menuOptions={[
                   { href: '/user/credit&debt/debt', title: 'Debt Management' },
                   { href: '/user/credit&debt/credit', title: 'Credit Management' },
                ]}
             />
          </Menubar>
-      </>
-   )
+      </div>
+   );
 }
