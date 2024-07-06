@@ -1,53 +1,21 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
 import { NewSalesContext } from '@/context/NewSalesContext';
-import { api } from '@/trpc/client';
 import { useSearchParams } from 'next/navigation';
-import { useQueryState } from 'nuqs';
 import React, { useContext } from 'react';
+import useCreateSales from '../hooks/useCreateSales';
 
 export default function SubmitSales() {
    const searchParams = useSearchParams();
-   const [customer, setCustomer] = useQueryState('customer');
-   const [paymentOption, setPaymentOption] = useQueryState('payment', { defaultValue: 'cash' });
+   const { submitSale, paymentOption, customer, isPending } = useCreateSales();
 
-   const { toast } = useToast();
    const { salesItems } = useContext(NewSalesContext)!;
 
    const salesDate = searchParams.get('date') ?? new Date().toISOString();
 
    const items = Object.values(salesItems ?? {});
    const userId = 'cba51dba-4308-453c-973a-0bb24c5fd6b4';
-
-   const { mutate: submitSale, isPending } = api.sales.newSales.useMutation({
-      onSuccess: (res) => {
-         if (res.status === 'success') {
-            toast({
-               description: res.message,
-               variant: 'default',
-            });
-            setCustomer(null);
-            setPaymentOption(null);
-            setTimeout(() => {
-               window.location.reload();
-            }, 500);
-         } else {
-            toast({
-               description: res.message,
-               variant: 'destructive',
-            });
-         }
-      },
-      onError: (err) => {
-         toast({
-            description: 'Error submitting data',
-            variant: 'destructive',
-         });
-         console.error(err);
-      },
-   });
 
    const handleSubmit = () => {
       const payload = {
