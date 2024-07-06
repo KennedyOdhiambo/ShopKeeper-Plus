@@ -6,9 +6,9 @@ import ItemsDropdown from '../../@newSales/_components/ItemsDropdown';
 
 export default function AllSalesFilters() {
    return (
-      <div className="hidden lg:flex lg:flex-row lg:items-end gap-5 ">
-         <ItemsDropdown />
-         <CustomSelect onSelect={(value) => console.log(value)} options={[]} placeholder="Select Customer" />
+      <div className="hidden gap-5 lg:flex lg:flex-row lg:items-end">
+         <ItemsDropdown onSelect={(value) => console.log(value)} />
+         <CustomSelect queryId="customer" options={[]} placeholder="Select Customer" />
          <DateRangePicker />
       </div>
    );
