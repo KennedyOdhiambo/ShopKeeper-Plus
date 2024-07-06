@@ -1,6 +1,6 @@
 {
    "tabWidth": 3,
-   "printWidth": 120,
+   "printWidth": 100,
    "singleQuote": true,
    "arrowParens": "always",
    "plugins": ["prettier-plugin-tailwindcss"]

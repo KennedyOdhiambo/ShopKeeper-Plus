@@ -23,16 +23,16 @@ export default function NewSalesTable() {
             <TableHeader>
                <TableRow>
                   <TableHead>Item</TableHead>
-                  <TableHead className=" text-center">Quantity In Stock</TableHead>
-                  <TableHead className=" text-center">Quantity Sold</TableHead>
-                  <TableHead className=" text-center">Unit Cost</TableHead>
-                  <TableHead className=" text-center">Total Cost</TableHead>
-                  <TableHead className=" text-center">Action</TableHead>
+                  <TableHead className="text-center">Quantity In Stock</TableHead>
+                  <TableHead className="text-center">Quantity Sold</TableHead>
+                  <TableHead className="text-center">Unit Cost</TableHead>
+                  <TableHead className="text-center">Total Cost</TableHead>
+                  <TableHead className="text-center">Action</TableHead>
                </TableRow>
             </TableHeader>
             <NewSalesTableBody handleDeleteRow={handleDeleteRow} rowCount={rowCount} />
          </Table>
-         <Button className="w-fit self-end me-5" variant={'outline'} onClick={handleAddRow}>
+         <Button className="me-5 w-fit self-end" variant={'outline'} onClick={handleAddRow}>
             Add new row
          </Button>
       </div>

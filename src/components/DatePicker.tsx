@@ -9,7 +9,7 @@ import { Calendar } from './ui/calendar';
 import { parseAsIsoDateTime, useQueryState } from 'nuqs';
 
 export default function DatePicker() {
-   const [selectedDate, setSelectedDate] = useQueryState('salesDate', parseAsIsoDateTime);
+   const [selectedDate, setSelectedDate] = useQueryState('date', parseAsIsoDateTime);
 
    const handleSelectDate = (date: Date) => {
       setSelectedDate(date);
@@ -19,7 +19,10 @@ export default function DatePicker() {
          <PopoverTrigger asChild>
             <Button
                variant={'outline'}
-               className={cn('w-[280px] justify-start text-left font-normal', !selectedDate && 'text-muted-foreground')}
+               className={cn(
+                  'w-[280px] justify-start text-left font-normal',
+                  !selectedDate && 'text-muted-foreground',
+               )}
             >
                <CalendarIcon className="mr-2 h-4 w-4" />
                {selectedDate ? format(selectedDate, 'PPP') : <span>Sales Date</span>}
@@ -29,7 +32,7 @@ export default function DatePicker() {
             <Calendar
                mode="single"
                selected={selectedDate ?? new Date()}
-               onSelect={(date) => handleSelectDate(date!)}
+               onSelect={(date) => handleSelectDate(date ?? new Date())}
                initialFocus
             />
          </PopoverContent>

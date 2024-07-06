@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { TableBody, TableCell, TableRow } from '@/components/ui/table';
 import ItemsDropdown from './ItemsDropdown';
 import { Input } from '@/components/ui/input';
@@ -10,26 +10,26 @@ import { Button } from '@/components/ui/button';
 import { Delete } from 'lucide-react';
 import { api } from '@/trpc/client';
 import { Skeleton } from '@/components/ui/skeleton';
+import { NewSalesContext } from '@/context/NewSalesContext';
 
 type NewSalesTableBodyProps = {
    rowCount: Array<{ rowId: number }>;
    handleDeleteRow: (index: number) => void;
 };
 
-type Item = { itemId: string; quantity: string; unitCost: string; quantityInStock: string };
-type SalesItems = Record<string, Item>;
+export type NewSalesItem = { itemId: string; quantity: string; unitCost: string; quantityInStock: string };
+export type NewSalesItems = Record<string, NewSalesItem>;
 
 export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSalesTableBodyProps) {
-   const [salesItems, setSalesItems] = useState<SalesItems | null>(null);
+   const [salesItems, setSalesItems] = useState<NewSalesItems | null>(null);
    const [currentItemId, setCurrentItemId] = useState('');
    const [loadingRows, setLoadingRows] = useState<Record<string, boolean>>({});
+   const newSalesContext = useContext(NewSalesContext);
 
    const { data: inventoryDetails, refetch } = api.items.quantityInStock.useQuery(
       { itemId: currentItemId },
       { enabled: !!currentItemId },
    );
-
-   console.log(salesItems);
 
    useEffect(() => {
       if (currentItemId) {
@@ -55,7 +55,7 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
             };
          });
       }
-   }, [currentItemId, inventoryDetails]);
+   }, [currentItemId, inventoryDetails, setSalesItems]);
 
    const handleSelectItem = (rowId: string, itemId: string) => {
       setCurrentItemId(itemId);
@@ -71,7 +71,23 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
             },
          };
       });
+
+      newSalesContext?.setSalesItems((prev) => {
+         let updatedItems = prev || {};
+         updatedItems = {
+            ...updatedItems,
+            [rowId]: {
+               ...updatedItems[rowId],
+               itemId: itemId,
+               quantity: 0,
+            },
+         };
+
+         return updatedItems;
+      });
    };
+
+   // console.log('context:', newSalesContext?.salesItems);
 
    const handleQuantityChange = (rowId: string, value: string) => {
       setSalesItems((prevItems) => {
@@ -84,6 +100,17 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
             },
          };
       });
+
+      newSalesContext?.setSalesItems((prev) => {
+         if (!prev) return null;
+         return {
+            ...prev,
+            [rowId]: {
+               ...prev[rowId],
+               quantity: +value,
+            },
+         };
+      });
    };
 
    const onDeleteRow = (rowId: number) => {
@@ -91,6 +118,12 @@ export default function NewSalesTableBody({ rowCount, handleDeleteRow }: NewSale
          if (!prevItems) return null;
 
          const { [rowId]: deletedItem, ...remainingItems } = prevItems;
+         return remainingItems;
+      });
+
+      newSalesContext?.setSalesItems((prev) => {
+         if (!prev) return null;
+         const { [rowId]: deletedItem, ...remainingItems } = prev;
          return remainingItems;
       });
 
