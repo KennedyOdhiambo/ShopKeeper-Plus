@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-const newCustomerValidation = z.object({
+export const newCustomerValidation = z.object({
    customerName: z.string().min(2, { message: 'Valid customer name is required' }),
    customerContact: z.string().min(10, { message: 'Phone number should be atleast 10 characters' }),
    kraPin: z.string().optional(),
@@ -16,7 +16,9 @@ const newCustomerValidation = z.object({
 export type customerForm = z.infer<typeof newCustomerValidation>;
 
 export default function NewCustomerForm() {
-   const { register, handleSubmit } = useForm<customerForm>({ resolver: zodResolver(newCustomerValidation) });
+   const { register, handleSubmit } = useForm<customerForm>({
+      resolver: zodResolver(newCustomerValidation),
+   });
    const onSubmit = (data: customerForm) => {
       console.log('data:', data);
    };
@@ -44,7 +46,7 @@ export default function NewCustomerForm() {
             <Input id="kraPin" {...register('kraPin')} />
          </div>
 
-         <div className=" text-end">
+         <div className="text-end">
             <Button type="submit">Save changes</Button>
          </div>
       </form>

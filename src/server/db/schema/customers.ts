@@ -1,6 +1,6 @@
 import { pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { users } from './users';
-import { InferSelectModel } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
 export const customers = pgTable('customers', {
    customerId: uuid('customer_id').primaryKey().defaultRandom(),
@@ -12,3 +12,4 @@ export const customers = pgTable('customers', {
 });
 
 export type SelectCustomers = InferSelectModel<typeof customers>;
+export type InsertCustomer = InferInsertModel<typeof customers>;
