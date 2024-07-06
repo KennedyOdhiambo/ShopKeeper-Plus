@@ -2,7 +2,7 @@ import { customers, InsertCustomer } from '@/server/db/schema/customers';
 import { createTRPCRouter, publicProcedure } from '../trpc';
 import { z } from 'zod';
 import { and, eq } from 'drizzle-orm';
-import { newCustomerValidation } from '@/app/user/sales/@newSales/_components/NewCustomerForm';
+import { newCustomerValidation } from '@/validation/customerValidation';
 
 export const customersRouter = createTRPCRouter({
    listCustomers: publicProcedure

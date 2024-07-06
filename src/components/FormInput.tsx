@@ -1,20 +1,28 @@
-import { Label } from "./ui/label"
-import { Input } from "./ui/input"
-import { UseFormRegisterReturn } from "react-hook-form"
+import { Label } from './ui/label';
+import { Input } from './ui/input';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 type FormInputProps = {
-   id: string
-   label: string
-   type?: string
-   register?: UseFormRegisterReturn
-   error?: string
-}
-export default function FormInput({ id, label, type, register, error }: FormInputProps) {
+   id: string;
+   label: string;
+   type?: string;
+   register?: UseFormRegisterReturn;
+   error?: string;
+   inputClassName?: string;
+};
+export default function FormInput({
+   id,
+   label,
+   type,
+   register,
+   error,
+   inputClassName,
+}: FormInputProps) {
    return (
       <div className="flex flex-col gap-2">
          <Label htmlFor={id}>{label}</Label>
-         <Input {...register} className="w-96 lg:w-80 xl:w-72 2xl:w-80" id={id} type={type} />
-         <p className="text-xs text-destructive  font-thin">{error}</p>
+         <Input {...register} className={inputClassName} id={id} type={type} />
+         <p className="text-xs font-thin text-destructive">{error}</p>
       </div>
-   )
+   );
 }
