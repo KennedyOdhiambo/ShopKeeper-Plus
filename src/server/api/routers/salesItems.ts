@@ -14,7 +14,7 @@ export const salesItemsRouter = createTRPCRouter({
             endDate: z.string().optional(),
          }),
       )
-      .query(async ({ ctx, input }) => {
+      .query(async ({ input }) => {
          const { itemId, customerId, startDate, endDate } = input;
          const formattedStartDate = startDate ?? new Date(2010, 0, 1).toISOString();
          const formattedEndDate = endDate ?? new Date().toISOString();
