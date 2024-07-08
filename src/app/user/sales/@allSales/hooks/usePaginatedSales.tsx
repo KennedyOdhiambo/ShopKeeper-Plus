@@ -5,17 +5,17 @@ export default function usePaginatedSales() {
    const searchParams = useSearchParams();
    const startDate = searchParams.get('from');
    const endDate = searchParams.get('to');
-   const paymentMethodParam = searchParams.get('payment');
+   const paymentMethod = searchParams.get('payment');
    const customerId = searchParams.get('customer');
    const page = searchParams.get('page');
 
    const { data, isPending } = api.sales.listPaginatedSales.useQuery({
       startDate: startDate ?? undefined,
       endDate: endDate ?? undefined,
-      paymentMethod: paymentMethodParam
-         ? paymentMethodParam === 'all'
+      paymentMethod: paymentMethod
+         ? paymentMethod === 'all'
             ? undefined
-            : (paymentMethodParam as 'cash' | 'credit' | 'mpesa')
+            : (paymentMethod as 'cash' | 'credit' | 'mpesa')
          : undefined,
       customerId: customerId ? (customerId === 'all' ? undefined : customerId) : undefined,
       page: page ?? '0',

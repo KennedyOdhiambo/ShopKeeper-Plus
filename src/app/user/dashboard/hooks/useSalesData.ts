@@ -1,16 +1,19 @@
 import { api } from '@/trpc/client';
 import { useSearchParams } from 'next/navigation';
 
-export default function useSalesData(paymentMethod?: 'cash' | 'credit' | 'mpesa') {
+export default function useSalesData(paymentMethod?: string) {
    const searchParams = useSearchParams();
    const startDate = searchParams.get('from');
    const endDate = searchParams.get('to');
-   const paymentMethodParam = searchParams.get('payment') as 'cash' | 'credit' | 'mpesa';
 
    const { data, isPending } = api.sales.listSales.useQuery({
       startDate: startDate ?? undefined,
       endDate: endDate ?? undefined,
-      paymentMethod: paymentMethod ?? paymentMethodParam,
+      paymentMethod: paymentMethod
+         ? paymentMethod === 'all'
+            ? undefined
+            : (paymentMethod as 'cash' | 'credit' | 'mpesa')
+         : undefined,
    });
 
    const salesData = data?.sales.map((object) => object.sales);

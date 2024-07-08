@@ -36,7 +36,7 @@ export const salesRouter = createTRPCRouter({
          const res = await ctx.db
             .select()
             .from(sales)
-            .where(and(...conditions))
+            .where(and(...conditions, eq(sales.status, 'active')))
             .leftJoin(customers, eq(sales.customerId, customers.customerId))
             .orderBy(desc(sales.salesDate))
             .execute();
@@ -74,7 +74,7 @@ export const salesRouter = createTRPCRouter({
          const salesQuery = ctx.db
             .select()
             .from(sales)
-            .where(and(...conditions))
+            .where(and(...conditions, eq(sales.status, 'active')))
             .leftJoin(customers, eq(sales.customerId, customers.customerId))
             .orderBy(desc(sales.salesDate))
             .limit(PAGE_SIZE)
@@ -83,7 +83,7 @@ export const salesRouter = createTRPCRouter({
          const countQuery = ctx.db
             .select({ value: count() })
             .from(sales)
-            .where(and(...conditions));
+            .where(and(...conditions, eq(sales.status, 'active')));
 
          const [salesResult, countResult] = await Promise.all([
             salesQuery.execute(),
@@ -95,6 +95,82 @@ export const salesRouter = createTRPCRouter({
          return {
             sales: salesResult,
             totalCount: totalCount,
+         };
+      }),
+
+   deleteSale: publicProcedure
+      .input(
+         z.object({
+            salesId: z.string().min(2, { message: 'Sales Id is required' }),
+         }),
+      )
+      .mutation(async ({ ctx, input }) => {
+         const { salesId } = input;
+         const salesInfo = await ctx.db
+            .select()
+            .from(sales)
+            .where(and(eq(sales.salesId, salesId), eq(sales.status, 'active')));
+
+         if (!salesInfo.length) {
+            return {
+               status: 'error',
+               message: 'Record not found',
+            };
+         }
+
+         const deletedSale = await ctx.db
+            .update(sales)
+            .set({ status: 'deleted' })
+            .where(eq(sales.salesId, salesId))
+            .returning();
+
+         if (!deletedSale.length) {
+            return {
+               status: 'error',
+               message: 'Failed to delete, please try again',
+            };
+         }
+
+         const deletedItems = await ctx.db
+            .update(salesItems)
+            .set({
+               status: 'deleted',
+            })
+            .where(eq(salesItems.salesId, deletedSale[0].salesId))
+            .returning();
+
+         if (!deletedItems.length) {
+            return {
+               status: 'error',
+               message: 'Error deleting associated items,please contact customer care',
+            };
+         }
+
+         if (deletedSale[0].paymentOption === 'credit') {
+            const salesId = deletedSale[0].salesId;
+            const updatedCredit = await ctx.db
+               .update(creditDebt)
+               .set({
+                  status: 'deleted',
+               })
+               .where(eq(creditDebt.salesId, salesId));
+
+            if (!updatedCredit.length) {
+               return {
+                  status: 'error',
+                  message: 'Error updating credit entry, please contact customer care',
+               };
+            }
+
+            return {
+               status: 'success',
+               message: 'Sales succesfully deleted',
+            };
+         }
+
+         return {
+            status: 'success',
+            message: 'Sales succesfully deleted!',
          };
       }),
 
