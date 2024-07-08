@@ -1,12 +1,13 @@
 import { InsertSales, sales } from '@/server/db/schema/sales';
 import { createTRPCRouter, publicProcedure } from '../trpc';
 import { z } from 'zod';
-import { and, asc, between, eq, gt, sql } from 'drizzle-orm';
+import { and, asc, between, count, desc, eq, gt, sql } from 'drizzle-orm';
 import { customers } from '@/server/db/schema/customers';
 import { users } from '@/server/db/schema/users';
 import { inventory } from '@/server/db/schema/inventory';
 import { InsertSalesItem, salesItems } from '@/server/db/schema/salesItems';
 import { creditDebt, InsertCreditDebt } from '@/server/db/schema/creditDebt';
+import { PAGE_SIZE } from '@/lib/const';
 
 export const salesRouter = createTRPCRouter({
    listSales: publicProcedure
@@ -15,6 +16,8 @@ export const salesRouter = createTRPCRouter({
             startDate: z.string().optional(),
             endDate: z.string().optional(),
             paymentMethod: z.enum(['cash', 'credit', 'mpesa']).optional(),
+            customerId: z.string().optional(),
+            page: z.string().optional(),
          }),
       )
       .query(async ({ ctx, input }) => {
@@ -26,16 +29,148 @@ export const salesRouter = createTRPCRouter({
             conditions.push(eq(sales.paymentOption, input.paymentMethod));
          }
 
+         if (input.customerId) {
+            conditions.push(eq(sales.customerId, input.customerId));
+         }
+
          const res = await ctx.db
             .select()
             .from(sales)
-            .where(and(...conditions))
-            .rightJoin(customers, eq(sales.customerId, customers.customerId))
+            .where(and(...conditions, eq(sales.status, 'active')))
+            .leftJoin(customers, eq(sales.customerId, customers.customerId))
+            .orderBy(desc(sales.salesDate))
             .execute();
 
          return {
             status: 'success' as const,
             sales: res,
+         };
+      }),
+
+   listPaginatedSales: publicProcedure
+      .input(
+         z.object({
+            startDate: z.string().optional(),
+            endDate: z.string().optional(),
+            paymentMethod: z.enum(['cash', 'credit', 'mpesa']).optional(),
+            customerId: z.string().optional(),
+            page: z.string(),
+         }),
+      )
+      .query(async ({ ctx, input }) => {
+         const startDate = input.startDate ?? new Date(2010, 0, 1).toISOString();
+         const endDate = input.endDate ?? new Date().toISOString();
+
+         const conditions = [between(sales.salesDate, startDate, endDate)];
+         if (input.paymentMethod) {
+            conditions.push(eq(sales.paymentOption, input.paymentMethod));
+         }
+         if (input.customerId) {
+            conditions.push(eq(sales.customerId, input.customerId));
+         }
+
+         const offset = +input.page * PAGE_SIZE;
+
+         const salesQuery = ctx.db
+            .select()
+            .from(sales)
+            .where(and(...conditions, eq(sales.status, 'active')))
+            .leftJoin(customers, eq(sales.customerId, customers.customerId))
+            .orderBy(desc(sales.salesDate))
+            .limit(PAGE_SIZE)
+            .offset(offset);
+
+         const countQuery = ctx.db
+            .select({ value: count() })
+            .from(sales)
+            .where(and(...conditions, eq(sales.status, 'active')));
+
+         const [salesResult, countResult] = await Promise.all([
+            salesQuery.execute(),
+            countQuery.execute(),
+         ]);
+
+         const totalCount = countResult[0].value;
+
+         return {
+            sales: salesResult,
+            totalCount: totalCount,
+         };
+      }),
+
+   deleteSale: publicProcedure
+      .input(
+         z.object({
+            salesId: z.string().min(2, { message: 'Sales Id is required' }),
+         }),
+      )
+      .mutation(async ({ ctx, input }) => {
+         const { salesId } = input;
+         const salesInfo = await ctx.db
+            .select()
+            .from(sales)
+            .where(and(eq(sales.salesId, salesId), eq(sales.status, 'active')));
+
+         if (!salesInfo.length) {
+            return {
+               status: 'error',
+               message: 'Record not found',
+            };
+         }
+
+         const deletedSale = await ctx.db
+            .update(sales)
+            .set({ status: 'deleted' })
+            .where(eq(sales.salesId, salesId))
+            .returning();
+
+         if (!deletedSale.length) {
+            return {
+               status: 'error',
+               message: 'Failed to delete, please try again',
+            };
+         }
+
+         const deletedItems = await ctx.db
+            .update(salesItems)
+            .set({
+               status: 'deleted',
+            })
+            .where(eq(salesItems.salesId, deletedSale[0].salesId))
+            .returning();
+
+         if (!deletedItems.length) {
+            return {
+               status: 'error',
+               message: 'Error deleting associated items,please contact customer care',
+            };
+         }
+
+         if (deletedSale[0].paymentOption === 'credit') {
+            const salesId = deletedSale[0].salesId;
+            const updatedCredit = await ctx.db
+               .update(creditDebt)
+               .set({
+                  status: 'deleted',
+               })
+               .where(eq(creditDebt.salesId, salesId));
+
+            if (!updatedCredit.length) {
+               return {
+                  status: 'error',
+                  message: 'Error updating credit entry, please contact customer care',
+               };
+            }
+
+            return {
+               status: 'success',
+               message: 'Sales succesfully deleted',
+            };
+         }
+
+         return {
+            status: 'success',
+            message: 'Sales succesfully deleted!',
          };
       }),
 

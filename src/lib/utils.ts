@@ -22,7 +22,9 @@ export function formatMoney(amount: number | string) {
    return new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES' }).format(+amount);
 }
 
-export function getFirstLetters(str: string, numWords = Infinity) {
+export function getFirstLetters(str: string | null | undefined, numWords = Infinity) {
+   if (str === null || str === undefined) return;
+
    let result = ' ';
    let wordCount = 0;
 
