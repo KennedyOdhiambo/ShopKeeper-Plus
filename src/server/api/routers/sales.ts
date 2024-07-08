@@ -1,12 +1,13 @@
 import { InsertSales, sales } from '@/server/db/schema/sales';
 import { createTRPCRouter, publicProcedure } from '../trpc';
 import { z } from 'zod';
-import { and, asc, between, eq, gt, sql } from 'drizzle-orm';
+import { and, asc, between, count, desc, eq, gt, sql } from 'drizzle-orm';
 import { customers } from '@/server/db/schema/customers';
 import { users } from '@/server/db/schema/users';
 import { inventory } from '@/server/db/schema/inventory';
 import { InsertSalesItem, salesItems } from '@/server/db/schema/salesItems';
 import { creditDebt, InsertCreditDebt } from '@/server/db/schema/creditDebt';
+import { PAGE_SIZE } from '@/lib/const';
 
 export const salesRouter = createTRPCRouter({
    listSales: publicProcedure
@@ -15,6 +16,8 @@ export const salesRouter = createTRPCRouter({
             startDate: z.string().optional(),
             endDate: z.string().optional(),
             paymentMethod: z.enum(['cash', 'credit', 'mpesa']).optional(),
+            customerId: z.string().optional(),
+            page: z.string().optional(),
          }),
       )
       .query(async ({ ctx, input }) => {
@@ -26,16 +29,72 @@ export const salesRouter = createTRPCRouter({
             conditions.push(eq(sales.paymentOption, input.paymentMethod));
          }
 
+         if (input.customerId) {
+            conditions.push(eq(sales.customerId, input.customerId));
+         }
+
          const res = await ctx.db
             .select()
             .from(sales)
             .where(and(...conditions))
-            .rightJoin(customers, eq(sales.customerId, customers.customerId))
+            .leftJoin(customers, eq(sales.customerId, customers.customerId))
+            .orderBy(desc(sales.salesDate))
             .execute();
 
          return {
             status: 'success' as const,
             sales: res,
+         };
+      }),
+
+   listPaginatedSales: publicProcedure
+      .input(
+         z.object({
+            startDate: z.string().optional(),
+            endDate: z.string().optional(),
+            paymentMethod: z.enum(['cash', 'credit', 'mpesa']).optional(),
+            customerId: z.string().optional(),
+            page: z.string(),
+         }),
+      )
+      .query(async ({ ctx, input }) => {
+         const startDate = input.startDate ?? new Date(2010, 0, 1).toISOString();
+         const endDate = input.endDate ?? new Date().toISOString();
+
+         const conditions = [between(sales.salesDate, startDate, endDate)];
+         if (input.paymentMethod) {
+            conditions.push(eq(sales.paymentOption, input.paymentMethod));
+         }
+         if (input.customerId) {
+            conditions.push(eq(sales.customerId, input.customerId));
+         }
+
+         const offset = +input.page * PAGE_SIZE;
+
+         const salesQuery = ctx.db
+            .select()
+            .from(sales)
+            .where(and(...conditions))
+            .leftJoin(customers, eq(sales.customerId, customers.customerId))
+            .orderBy(desc(sales.salesDate))
+            .limit(PAGE_SIZE)
+            .offset(offset);
+
+         const countQuery = ctx.db
+            .select({ value: count() })
+            .from(sales)
+            .where(and(...conditions));
+
+         const [salesResult, countResult] = await Promise.all([
+            salesQuery.execute(),
+            countQuery.execute(),
+         ]);
+
+         const totalCount = countResult[0].value;
+
+         return {
+            sales: salesResult,
+            totalCount: totalCount,
          };
       }),
 

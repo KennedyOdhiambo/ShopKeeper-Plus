@@ -2,13 +2,24 @@
 
 import CustomSelect from '@/components/CustomSelect';
 import DateRangePicker from '@/components/DateRangePicker';
-import ItemsDropdown from '../../@newSales/_components/ItemsDropdown';
+import { paymentOptions } from '../../@newSales/_components/NewSalesOptions';
+import useListCustomers from '@/app/user/customers/hooks/useListCustomers';
 
 export default function AllSalesFilters() {
+   const { customerDropdownOptions } = useListCustomers();
+
    return (
       <div className="hidden gap-5 lg:flex lg:flex-row lg:items-end">
-         <ItemsDropdown onSelect={(value) => console.log(value)} />
-         <CustomSelect queryId="customer" options={[]} placeholder="Select Customer" />
+         <CustomSelect
+            queryId="payment"
+            options={[{ id: 'all', value: 'All' }, ...paymentOptions]}
+            placeholder="Payment Method"
+         />
+         <CustomSelect
+            queryId="customer"
+            options={[{ id: 'all', value: 'All Customers' }, ...customerDropdownOptions]}
+            placeholder="Select Customer"
+         />
          <DateRangePicker />
       </div>
    );

@@ -9,11 +9,9 @@ import useCreateSales from '../hooks/useCreateSales';
 export default function SubmitSales() {
    const searchParams = useSearchParams();
    const { submitSale, paymentOption, customer, isPending } = useCreateSales();
-
    const { salesItems } = useContext(NewSalesContext)!;
 
    const salesDate = searchParams.get('date') ?? new Date().toISOString();
-
    const items = Object.values(salesItems ?? {});
    const userId = 'cba51dba-4308-453c-973a-0bb24c5fd6b4';
 
