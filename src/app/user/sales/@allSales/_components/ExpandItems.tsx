@@ -6,7 +6,7 @@ import React from 'react';
 export default function ExpandItems({ salesId }: { salesId: string }) {
    const router = useRouter();
    const handleClick = () => {
-      router.push(`sales/${salesId}`);
+      router.push(`sales-details/${salesId}`);
    };
    return (
       <Button onClick={handleClick} variant={'link'} className="inline-flex flex-row gap-1">
