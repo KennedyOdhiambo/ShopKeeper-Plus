@@ -182,7 +182,10 @@ export const salesRouter = createTRPCRouter({
          }),
       )
       .query(async ({ ctx, input }) => {
-         const startDate = input.startDate ?? new Date(2010, 0, 1).toISOString();
+         const defaultStartDate = new Date();
+         defaultStartDate.setFullYear(defaultStartDate.getFullYear() - 1);
+
+         const startDate = input.startDate ?? defaultStartDate.toISOString();
          const endDate = input.endDate ?? new Date().toISOString();
 
          const totalMonthlySales = await ctx.db
@@ -192,7 +195,8 @@ export const salesRouter = createTRPCRouter({
             })
             .from(sales)
             .where(between(sales.salesDate, startDate, endDate))
-            .groupBy(sql`to_char(${sales.salesDate}, 'YYYY-MM')`);
+            .groupBy(sql`to_char(${sales.salesDate}, 'YYYY-MM')`)
+            .orderBy(sql`to_char(${sales.salesDate}, 'YYYY-MM') ASC`);
 
          return totalMonthlySales;
       }),
