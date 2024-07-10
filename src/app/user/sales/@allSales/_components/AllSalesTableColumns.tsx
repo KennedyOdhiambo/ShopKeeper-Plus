@@ -5,7 +5,7 @@ import DeleteSale from './DeleteSale';
 export type AllSalesTableColumns = {
    salesId: string;
    salesDate: string | null;
-   totalCost: string | null;
+   totalCost: string | null | undefined;
    paymentOption: string | null;
    customerName: string | undefined;
 };
