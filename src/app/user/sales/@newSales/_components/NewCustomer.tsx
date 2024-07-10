@@ -10,13 +10,23 @@ import {
 import { UserRoundPlus } from 'lucide-react';
 import NewCustomerForm from './NewCustomerForm';
 
-export default function NewCustomer() {
+type NewCustomerProps = {
+   type: 'icon' | 'button';
+};
+
+export default function NewCustomer({ type }: NewCustomerProps) {
    return (
       <Dialog>
          <DialogTrigger asChild>
-            <Button variant={'default'} size={'icon'} className="rounded-full">
-               <UserRoundPlus />
-            </Button>
+            {type === 'icon' ? (
+               <Button variant={'default'} size={'icon'} className="rounded-full">
+                  <UserRoundPlus />
+               </Button>
+            ) : (
+               <Button variant={'outline'} size={'sm'}>
+                  New Customer
+               </Button>
+            )}
          </DialogTrigger>
          <DialogContent className="w-[460px] rounded-sm">
             <DialogHeader>

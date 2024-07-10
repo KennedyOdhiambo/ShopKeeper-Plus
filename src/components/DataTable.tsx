@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from './ui/button';
 import { useQueryState } from 'nuqs';
+import { PAGE_SIZE } from '@/lib/const';
 
 interface DataTableProps<TData, TValue> {
    columns: ColumnDef<TData, TValue>[];
@@ -30,7 +31,7 @@ export default function DataTable<TData, TValue>({
    data,
    rowCount,
 }: DataTableProps<TData, TValue>) {
-   const [, setPage] = useQueryState('page', { defaultValue: '0' });
+   const [page, setPage] = useQueryState('page', { defaultValue: '0' });
    const table = useReactTable({
       data,
       columns,
@@ -39,6 +40,11 @@ export default function DataTable<TData, TValue>({
       getPaginationRowModel: getPaginationRowModel(),
       rowCount: rowCount,
    });
+
+   const maxPage = Math.ceil(rowCount / PAGE_SIZE);
+
+   console.log('page:', page);
+   console.log('maxPage:', maxPage);
 
    const handleNextNavigation = () => {
       table.nextPage();
@@ -104,28 +110,30 @@ export default function DataTable<TData, TValue>({
             </Table>
          </div>
 
-         <div className="flex items-center justify-end space-x-2 py-4">
-            <Button
-               variant="outline"
-               size="sm"
-               onClick={() => {
-                  handlePrev();
-               }}
-               disabled={!table.getCanPreviousPage()}
-            >
-               Previous
-            </Button>
-            <Button
-               variant="outline"
-               size="sm"
-               onClick={() => {
-                  handleNextNavigation();
-               }}
-               disabled={!table.getCanNextPage()}
-            >
-               Next
-            </Button>
-         </div>
+         {rowCount > 10 && (
+            <div className="flex items-center justify-end space-x-2 py-4">
+               <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                     handlePrev();
+                  }}
+                  disabled={Number(page) === 0}
+               >
+                  Previous
+               </Button>
+               <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                     handleNextNavigation();
+                  }}
+                  disabled={Number(page) === maxPage - 1 || Number(page) > maxPage - 1}
+               >
+                  Next
+               </Button>
+            </div>
+         )}
       </div>
    );
 }

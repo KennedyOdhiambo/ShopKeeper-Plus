@@ -18,7 +18,8 @@ export function formatPhoneNumber(phone: string) {
    return phoneNumber;
 }
 
-export function formatMoney(amount: number | string) {
+export function formatMoney(amount: number | string | undefined) {
+   if (amount === undefined) return;
    return new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES' }).format(+amount);
 }
 

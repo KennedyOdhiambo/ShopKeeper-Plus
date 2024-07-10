@@ -2,6 +2,7 @@ import { date, decimal, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { users } from './users';
 import { sales } from './sales';
 import { customers } from './customers';
+import { InferSelectModel } from 'drizzle-orm';
 
 export const creditDebt = pgTable('credit_and_debt', {
    transactionId: uuid('credit_and_debt_id').primaryKey().defaultRandom(),
@@ -15,3 +16,4 @@ export const creditDebt = pgTable('credit_and_debt', {
 });
 
 export type InsertCreditDebt = typeof creditDebt.$inferInsert;
+export type SelectCreditDebt = InferSelectModel<typeof creditDebt>;

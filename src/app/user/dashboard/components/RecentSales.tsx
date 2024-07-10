@@ -9,6 +9,9 @@ export function RecentSales() {
    const { salesDataWithCustomers, isPending } = useSalesData();
    const recentSales = salesDataWithCustomers?.splice(0, 5);
 
+   console.log('salesWithCustomers', salesDataWithCustomers);
+   // console.log('recentSales:', recentSales);
+
    if (isPending) return <RecentSalesSkeleton />;
    return (
       <div className="space-y-8">

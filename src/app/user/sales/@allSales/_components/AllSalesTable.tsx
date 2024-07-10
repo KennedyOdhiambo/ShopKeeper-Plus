@@ -22,7 +22,7 @@ export default function AllSalesTable() {
 
    return (
       <div>
-         <DataTable rowCount={totalCount ?? 0} columns={allSalesColumns} data={tableData} />
+         <DataTable rowCount={totalCount ?? 0} columns={allSalesColumns} data={tableData ?? []} />
       </div>
    );
 }

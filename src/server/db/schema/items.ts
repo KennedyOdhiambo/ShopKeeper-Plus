@@ -1,6 +1,7 @@
 import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { users } from './users';
 import { categories } from './categories';
+import { InferSelectModel } from 'drizzle-orm';
 
 export const items = pgTable('items', {
    itemId: uuid('item_id').primaryKey().defaultRandom(),
@@ -11,3 +12,5 @@ export const items = pgTable('items', {
    reorderLevel: integer('reorder_level'),
    status: varchar('status').$type<'active' | 'deleted' | 'suspended'>().default('active'),
 });
+
+export type SelectItem = InferSelectModel<typeof items>;
