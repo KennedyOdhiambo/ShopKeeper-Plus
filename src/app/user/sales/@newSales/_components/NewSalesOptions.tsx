@@ -31,7 +31,7 @@ export default function NewSalesOptions() {
                      options={customerDropdownOptions ?? []}
                      placeholder="Customer"
                   />
-                  <NewCustomer />
+                  <NewCustomer type="icon" />
                </div>
             </div>
 
