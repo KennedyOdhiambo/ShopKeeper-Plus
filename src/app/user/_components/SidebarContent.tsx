@@ -29,7 +29,7 @@ export default function SidebarContent() {
                icon={<Banknote strokeWidth={'1.5px'} className="size-5 text-accent-foreground" />}
                menuOptions={[
                   { href: '/user/sales', title: 'All sales' },
-                  { href: '/user/sales/customers', title: 'Customers' },
+                  { href: '/user/customers', title: 'Customers' },
                ]}
             />
             <ExpandableMenuItem
