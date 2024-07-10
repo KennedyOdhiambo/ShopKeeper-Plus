@@ -72,11 +72,8 @@ export const customersRouter = createTRPCRouter({
 
    editCustomer: publicProcedure
       .input(
-         z.object({
+         newCustomerValidation.extend({
             customerId: z.string(),
-            customerName: z.string(),
-            customerContact: z.string(),
-            kraPin: z.string(),
          }),
       )
       .mutation(async ({ ctx, input }) => {
@@ -139,6 +136,34 @@ export const customersRouter = createTRPCRouter({
          return {
             status: 'success' as const,
             message: 'Customer deleted succesfully',
+         };
+      }),
+
+   getCustomer: publicProcedure
+      .input(
+         z.object({
+            customerId: z.string(),
+         }),
+      )
+      .query(async ({ ctx, input }) => {
+         const { customerId } = input;
+         const { db } = ctx;
+
+         const existingCustomer = await db
+            .select()
+            .from(customers)
+            .where(eq(customers.customerId, customerId));
+
+         if (!existingCustomer.length) {
+            return {
+               status: 'error' as const,
+               message: 'Customer not found',
+            };
+         }
+
+         return {
+            status: 'success' as const,
+            cusromer: existingCustomer[0],
          };
       }),
 });

@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { useToast } from '@/components/ui/use-toast';
 import { api } from '@/trpc/client';
 import { Delete, Edit } from 'lucide-react';
+import EditCustomer from './EditCustomer';
 
 export default function ListCustomersTableActions({ rowId }: { rowId: string }) {
    const { toast } = useToast();
@@ -42,23 +43,7 @@ export default function ListCustomersTableActions({ rowId }: { rowId: string }) 
 
    return (
       <div className="flex flex-row gap-2">
-         <TooltipProvider>
-            <Tooltip>
-               <TooltipTrigger asChild>
-                  <Button
-                     //    onClick={handleDelete}
-                     variant={'outline'}
-                     size={'icon'}
-                     className="border-2.5 rounded-lg p-1 transition-colors duration-200 hover:bg-primary hover:text-white"
-                  >
-                     <Edit className="size-5" />
-                  </Button>
-               </TooltipTrigger>
-               <TooltipContent className="rounded-md border bg-popover p-1">
-                  <p>Edit</p>
-               </TooltipContent>
-            </Tooltip>
-         </TooltipProvider>
+         <EditCustomer />
 
          <TooltipProvider>
             <Tooltip>
