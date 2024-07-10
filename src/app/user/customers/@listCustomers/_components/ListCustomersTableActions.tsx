@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
 import { api } from '@/trpc/client';
-import { Delete, Edit } from 'lucide-react';
+import { Delete } from 'lucide-react';
 import EditCustomer from './EditCustomer';
 
 export default function ListCustomersTableActions({ rowId }: { rowId: string }) {
@@ -43,7 +43,7 @@ export default function ListCustomersTableActions({ rowId }: { rowId: string }) 
 
    return (
       <div className="flex flex-row gap-2">
-         <EditCustomer />
+         <EditCustomer customerId={rowId} />
 
          <TooltipProvider>
             <Tooltip>

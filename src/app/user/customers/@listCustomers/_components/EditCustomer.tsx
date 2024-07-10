@@ -21,10 +21,9 @@ export default function EditCustomer({ customerId }: { customerId: string }) {
                      <Tooltip>
                         <TooltipTrigger asChild>
                            <Button
-                              //    onClick={handleDelete}
                               variant={'outline'}
                               size={'icon'}
-                              className="border-2.5 rounded-lg p-1 transition-colors duration-200 hover:bg-primary hover:text-white"
+                              className="border-2.5 rounded-lg p-1 text-secondary-foreground transition-colors duration-200 hover:bg-primary hover:text-white"
                            >
                               <Edit className="size-5" />
                            </Button>
