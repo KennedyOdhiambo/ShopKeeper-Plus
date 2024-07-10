@@ -137,7 +137,7 @@ export const customersRouter = createTRPCRouter({
             .where(eq(customers.customerId, customerId));
 
          return {
-            status: 'success ' as const,
+            status: 'success' as const,
             message: 'Customer deleted succesfully',
          };
       }),

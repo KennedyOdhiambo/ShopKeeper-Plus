@@ -1,7 +1,7 @@
 import { api } from '@/trpc/client';
 
 export default function useListCustomers() {
-   const { data } = api.customers.listCustomers.useQuery({
+   const { data, isPending } = api.customers.listCustomers.useQuery({
       userId: 'cba51dba-4308-453c-973a-0bb24c5fd6b4',
    });
 
@@ -14,5 +14,5 @@ export default function useListCustomers() {
          value: customer.customerName,
       })) ?? [];
 
-   return { customerDropdownOptions, totalCount, customers };
+   return { customerDropdownOptions, totalCount, customers, isPending };
 }
