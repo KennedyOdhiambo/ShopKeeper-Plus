@@ -2,6 +2,8 @@ import CustomSelect from '@/components/CustomSelect';
 import { api } from '@/trpc/server';
 import React from 'react';
 import ProductsAndServicesTable from './_components/ProductsAndServicesTable';
+import { Button } from '@/components/ui/button';
+import { CirclePlus } from 'lucide-react';
 
 export default async function ProductAndServices() {
    //FIXME:Update when session is implemented
@@ -15,12 +17,16 @@ export default async function ProductAndServices() {
    }));
    return (
       <div className="flex flex-col gap-10">
-         <div className="hidden gap-5 lg:flex lg:flex-row lg:items-end">
+         <div className="inline-flex items-end justify-between">
             <CustomSelect
                queryId="category"
                options={[{ id: 'all', value: 'All Categories' }, ...categoriesDropdownOptions]}
                placeholder="Category"
             />
+
+            <Button variant={'default'}>
+               <CirclePlus className="me-2 size-4" /> Product or Service
+            </Button>
          </div>
 
          <ProductsAndServicesTable />

@@ -22,8 +22,8 @@ export default function CreateNew() {
    return (
       <DropdownMenu>
          <DropdownMenuTrigger asChild>
-            <Button className=" h-8 me-4">
-               <CirclePlus className=" size-4 me-2" />
+            <Button variant={'outline'} className="me-4 h-8">
+               <CirclePlus className="me-2 size-4" />
                <span>Create New</span>
             </Button>
          </DropdownMenuTrigger>
@@ -31,8 +31,8 @@ export default function CreateNew() {
          <DropdownMenuContent>
             {dropdownOptions.map((option, index) => (
                <DropdownMenuItem key={index}>
-                  <Link href={option.href} className=" inline-flex w-full gap-3 items-center">
-                     <Plus className=" size-4" />
+                  <Link href={option.href} className="inline-flex w-full items-center gap-3">
+                     <Plus className="size-4" />
                      <span>{option.label}</span>
                   </Link>
                </DropdownMenuItem>
