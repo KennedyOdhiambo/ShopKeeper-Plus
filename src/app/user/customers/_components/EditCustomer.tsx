@@ -16,17 +16,15 @@ export default function EditCustomer({ customerId }: { customerId: string }) {
       <div>
          <Dialog>
             <DialogTrigger asChild>
-               <Button variant={'default'} size={'icon'} className="rounded-full">
+               <Button
+                  variant={'outline'}
+                  size={'icon'}
+                  className="border-2.5 rounded-full p-1 text-secondary-foreground transition-colors duration-200 hover:bg-primary hover:text-white"
+               >
                   <TooltipProvider>
                      <Tooltip>
                         <TooltipTrigger asChild>
-                           <Button
-                              variant={'outline'}
-                              size={'icon'}
-                              className="border-2.5 rounded-lg p-1 text-secondary-foreground transition-colors duration-200 hover:bg-primary hover:text-white"
-                           >
-                              <Edit className="size-5" />
-                           </Button>
+                           <Edit className="size-5" />
                         </TooltipTrigger>
                         <TooltipContent className="rounded-md border bg-popover p-1">
                            <p>Edit</p>

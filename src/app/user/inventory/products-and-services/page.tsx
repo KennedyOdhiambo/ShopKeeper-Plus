@@ -1,6 +1,7 @@
 import CustomSelect from '@/components/CustomSelect';
 import { api } from '@/trpc/server';
 import React from 'react';
+import ProductsAndServicesTable from './_components/ProductsAndServicesTable';
 
 export default async function ProductAndServices() {
    //FIXME:Update when session is implemented
@@ -13,7 +14,7 @@ export default async function ProductAndServices() {
       value: category.categoryName,
    }));
    return (
-      <div>
+      <div className="flex flex-col gap-10">
          <div className="hidden gap-5 lg:flex lg:flex-row lg:items-end">
             <CustomSelect
                queryId="category"
@@ -21,6 +22,8 @@ export default async function ProductAndServices() {
                placeholder="Category"
             />
          </div>
+
+         <ProductsAndServicesTable />
       </div>
    );
 }

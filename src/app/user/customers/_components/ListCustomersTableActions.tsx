@@ -52,7 +52,7 @@ export default function ListCustomersTableActions({ rowId }: { rowId: string }) 
                      onClick={handleDelete}
                      variant={'outline'}
                      size={'icon'}
-                     className="border-2.5 rounded-lg transition-colors duration-200 hover:bg-destructive hover:text-white"
+                     className="border-2.5 rounded-full transition-colors duration-200 hover:bg-destructive hover:text-white"
                   >
                      {isPending ? <LoadingSpinner /> : <Delete className="size-5" />}
                   </Button>
