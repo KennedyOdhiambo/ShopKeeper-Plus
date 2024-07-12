@@ -14,3 +14,4 @@ export const inventory = pgTable('inventory', {
 });
 
 export type SelectInventory = InferSelectModel<typeof inventory>;
+export type InsertInventory = InferSelectModel<typeof inventory>;
