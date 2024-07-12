@@ -6,18 +6,11 @@ import { inventory } from '@/server/db/schema/inventory';
 import { categories } from '@/server/db/schema/categories';
 import { PAGE_SIZE } from '@/lib/const';
 import { users } from '@/server/db/schema/users';
+import { NewItemValidation } from '@/validation/newItemValidation';
 
 export const itemsRouter = createTRPCRouter({
    createItem: publicProcedure
-      .input(
-         z.object({
-            userId: z.string(),
-            itemName: z.string().min(2, { message: 'Item name is required' }),
-            unitOfmeasure: z.string().min(2, { message: 'Unit Of Measure is required' }),
-            categoryId: z.string().min(2, { message: 'Category is required' }),
-            reorderLevel: z.string().optional(),
-         }),
-      )
+      .input(NewItemValidation.extend({ userId: z.string() }))
       .mutation(async ({ ctx, input }) => {
          const { userId, itemName, categoryId, reorderLevel, unitOfmeasure } = input;
          const { db } = ctx;
