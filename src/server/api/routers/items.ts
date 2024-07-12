@@ -6,7 +6,7 @@ import { inventory } from '@/server/db/schema/inventory';
 import { categories } from '@/server/db/schema/categories';
 import { PAGE_SIZE } from '@/lib/const';
 import { users } from '@/server/db/schema/users';
-import { NewItemValidation } from '@/validation/newItemValidation';
+import { NewItemValidation, updateItemValidation } from '@/validation/newItemValidation';
 
 export const itemsRouter = createTRPCRouter({
    createItem: publicProcedure
@@ -46,6 +46,63 @@ export const itemsRouter = createTRPCRouter({
          return {
             status: 'success' as const,
             message: 'Item succesfully added',
+         };
+      }),
+
+   updateItem: publicProcedure.input(updateItemValidation).mutation(async ({ ctx, input }) => {
+      const { itemId, itemName, unitOfmeasure, reorderLevel } = input;
+      const { db } = ctx;
+
+      const existingItem = await db
+         .select()
+         .from(items)
+         .where(and(eq(items.itemId, itemId), eq(items.status, 'active')));
+      if (!existingItem.length)
+         return {
+            status: 'error' as const,
+            message: 'Item not found',
+         };
+
+      await db
+         .update(items)
+         .set({
+            itemName: itemName,
+            unitOfMeasure: unitOfmeasure,
+            reorderLevel: Number(reorderLevel),
+         })
+         .where(eq(items.itemId, itemId));
+
+      return {
+         status: 'success' as const,
+         message: 'Item updated succesfully',
+      };
+   }),
+
+   deleteItem: publicProcedure
+      .input(
+         z.object({
+            itemId: z.string().min(2, { message: 'ItemId is required' }),
+         }),
+      )
+      .mutation(async ({ ctx, input }) => {
+         const { itemId } = input;
+         const { db } = ctx;
+
+         const existingItem = await db
+            .select()
+            .from(items)
+            .where(and(eq(items.itemId, itemId), eq(items.status, 'active')));
+         if (!existingItem.length)
+            return {
+               status: 'error' as const,
+               message: 'Item not found',
+            };
+
+         await db.update(items).set({ status: 'deleted' }).where(eq(items.itemId, itemId));
+
+         return {
+            status: 'success' as const,
+            message: 'Item succesfully deleted',
          };
       }),
 
@@ -102,6 +159,33 @@ export const itemsRouter = createTRPCRouter({
          return {
             items: itemsResult,
             count: countResult[0].value,
+         };
+      }),
+
+   getItemDetails: publicProcedure
+      .input(
+         z.object({
+            itemId: z.string().min(1, { message: 'Item id is required' }),
+         }),
+      )
+      .query(async ({ ctx, input }) => {
+         const { itemId } = input;
+         const { db } = ctx;
+
+         const existingItem = await db
+            .select()
+            .from(items)
+            .where(and(eq(items.itemId, itemId), eq(items.status, 'active')));
+
+         if (!existingItem.length)
+            return {
+               status: 'error' as const,
+               message: 'Item not found',
+            };
+
+         return {
+            status: 'success' as const,
+            item: existingItem[0],
          };
       }),
 

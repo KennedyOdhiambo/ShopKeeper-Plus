@@ -1,5 +1,5 @@
-import ListCustomersTableActions from '@/app/user/customers/_components/ListCustomersTableActions';
 import { ColumnDef } from '@tanstack/react-table';
+import ListItemsTableActions from './ListItemsTableActions';
 
 export type ProductServicesTable = {
    itemId: string;
@@ -34,7 +34,7 @@ export const productsAndServicesColumns: ColumnDef<ProductServicesTable>[] = [
       header: () => <div className="text-center">Action</div>,
       cell: ({ row }) => {
          const rowData = row.original;
-         return <ListCustomersTableActions rowId={rowData.itemId} />;
+         return <ListItemsTableActions itemId={rowData.itemId} />;
       },
    },
 ];
