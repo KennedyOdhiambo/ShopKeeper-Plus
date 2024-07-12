@@ -1,25 +1,24 @@
-'use client';
-
-import LoadingSpinner from '@/components/LoadingSpinner';
-import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import EditItem from './EditItem';
+import { Button } from '@/components/ui/button';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import { Delete } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { api } from '@/trpc/client';
-import { Delete } from 'lucide-react';
-import EditCustomer from './EditCustomer';
 
-export default function ListCustomersTableActions({ rowId }: { rowId: string }) {
+export default function ListItemsTableActions({ itemId }: { itemId: string }) {
    const { toast } = useToast();
    const utils = api.useUtils();
 
-   const { mutate, isPending } = api.customers.deleteCustomer.useMutation({
+   const { mutate, isPending } = api.items.deleteItem.useMutation({
       onSuccess: (res) => {
          if (res.status === 'success') {
             toast({
                description: res.message,
                variant: 'default',
             });
-            utils.customers.listCustomers.invalidate();
+            utils.items.listItems.invalidate();
+            utils.items.listItemsByCategory.invalidate();
          } else {
             toast({
                description: res.message,
@@ -38,12 +37,12 @@ export default function ListCustomersTableActions({ rowId }: { rowId: string }) 
    });
 
    const handleDelete = () => {
-      mutate({ customerId: rowId });
+      mutate({ itemId: itemId });
    };
 
    return (
       <div className="flex flex-row gap-2">
-         <EditCustomer customerId={rowId} />
+         <EditItem itemId={itemId} />
 
          <TooltipProvider>
             <Tooltip>

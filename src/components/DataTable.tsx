@@ -43,8 +43,6 @@ export default function DataTable<TData, TValue>({
 
    const maxPage = Math.ceil(rowCount / PAGE_SIZE);
 
-   console.log('page:', page);
-   console.log('maxPage:', maxPage);
 
    const handleNextNavigation = () => {
       table.nextPage();

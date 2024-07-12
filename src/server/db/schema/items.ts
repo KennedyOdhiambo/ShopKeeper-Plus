@@ -1,7 +1,7 @@
 import { integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
 import { users } from './users';
 import { categories } from './categories';
-import { InferSelectModel } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
 export const items = pgTable('items', {
    itemId: uuid('item_id').primaryKey().defaultRandom(),
@@ -14,3 +14,4 @@ export const items = pgTable('items', {
 });
 
 export type SelectItem = InferSelectModel<typeof items>;
+export type InsertItem = InferInsertModel<typeof items>;

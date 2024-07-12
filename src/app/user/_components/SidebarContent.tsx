@@ -4,7 +4,7 @@ import logo from '../../../../public/logo.svg';
 import Image from 'next/image';
 import { Menubar, MenubarMenu, MenubarSeparator } from '@/components/ui/menubar';
 import ExpandableMenuItem from './ExpandableMenuItem';
-import { Banknote, CreditCard, LayoutDashboard, Wallet, Warehouse } from 'lucide-react';
+import { Banknote, CreditCard, LayoutDashboard, Users, Wallet, Warehouse } from 'lucide-react';
 
 export default function SidebarContent() {
    return (
@@ -24,14 +24,29 @@ export default function SidebarContent() {
                </Link>
             </MenubarMenu>
             <MenubarSeparator />
-            <ExpandableMenuItem
-               title="Sales"
-               icon={<Banknote strokeWidth={'1.5px'} className="size-5 text-accent-foreground" />}
-               menuOptions={[
-                  { href: '/user/sales', title: 'All sales' },
-                  { href: '/user/customers', title: 'Customers' },
-               ]}
-            />
+
+            <MenubarMenu>
+               <Link
+                  href={'/user/sales'}
+                  className="inline-flex h-10 w-full items-center justify-start gap-3 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+               >
+                  <Banknote strokeWidth={'1.5px'} className="size-5" />
+                  Sales
+               </Link>
+            </MenubarMenu>
+            <MenubarSeparator />
+
+            <MenubarMenu>
+               <Link
+                  href={'/user/customers'}
+                  className="inline-flex h-10 w-full items-center justify-start gap-3 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+               >
+                  <Users strokeWidth={'1.5px'} className="size-5" />
+                  Customers
+               </Link>
+            </MenubarMenu>
+            <MenubarSeparator />
+
             <ExpandableMenuItem
                title=" Inventory"
                icon={<Warehouse strokeWidth={'1.5px'} className="size-5 text-accent-foreground" />}

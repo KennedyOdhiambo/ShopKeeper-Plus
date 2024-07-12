@@ -1,5 +1,6 @@
 import { pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
 import { users } from './users';
+import { InferSelectModel } from 'drizzle-orm';
 
 export const categories = pgTable('categories', {
    categoryId: uuid('category_id').primaryKey().defaultRandom(),
@@ -8,3 +9,5 @@ export const categories = pgTable('categories', {
    description: text('category_description'),
    status: varchar('status').$type<'active' | 'deleted' | 'suspended'>().default('active'),
 });
+
+export type SelectCategory = InferSelectModel<typeof categories>;
