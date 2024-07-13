@@ -1,0 +1,45 @@
+import { Button } from '@/components/ui/button';
+import {
+   Dialog,
+   DialogContent,
+   DialogDescription,
+   DialogHeader,
+   DialogTitle,
+   DialogTrigger,
+} from '@/components/ui/dialog';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Edit } from 'lucide-react';
+import React from 'react';
+import EditExpenseForm from './EditExpenseForm';
+
+export default function EditExpense({ expenseId }: { expenseId: string }) {
+   return (
+      <Dialog>
+         <DialogTrigger asChild>
+            <Button
+               variant={'outline'}
+               size={'icon'}
+               className="border-2.5 rounded-full p-1 text-secondary-foreground transition-colors duration-200 hover:bg-primary hover:text-white"
+            >
+               <TooltipProvider>
+                  <Tooltip>
+                     <TooltipTrigger asChild>
+                        <Edit className="size-5" />
+                     </TooltipTrigger>
+                     <TooltipContent className="rounded-md border bg-popover p-1">
+                        <p>Edit</p>
+                     </TooltipContent>
+                  </Tooltip>
+               </TooltipProvider>
+            </Button>
+         </DialogTrigger>
+         <DialogContent className="w-[460px] rounded-sm">
+            <DialogHeader>
+               <DialogTitle>Update Expense Details</DialogTitle>
+               <DialogDescription>Update details of expense</DialogDescription>
+            </DialogHeader>
+            <EditExpenseForm expenseId={expenseId} />
+         </DialogContent>
+      </Dialog>
+   );
+}

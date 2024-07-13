@@ -3,7 +3,7 @@ import { createTRPCRouter, publicProcedure } from '../trpc';
 import { expenses } from '@/server/db/schema/expenses';
 import { and, between, count, eq } from 'drizzle-orm';
 import { PAGE_SIZE } from '@/lib/const';
-import { expenseValidation } from '@/validation/expenseValidation';
+import { expenseValidation, updateExpenseValidation } from '@/validation/expenseValidation';
 import { users } from '@/server/db/schema/users';
 
 export const expenseRouter = createTRPCRouter({
@@ -45,16 +45,35 @@ export const expenseRouter = createTRPCRouter({
       };
    }),
 
-   updateExpense: publicProcedure
+   getExpenseDetails: publicProcedure
       .input(
          z.object({
             expenseId: z.string(),
-            expenseAmount: z.string(),
-            expenseRecipient: z.string().min(2, { message: 'Recipient is required' }),
-            expenseReference: z.string().min(2, { message: 'Reference is required' }),
-            expenseDescription: z.string().nullable(),
          }),
       )
+      .query(async ({ ctx, input }) => {
+         const { expenseId } = input;
+         const { db } = ctx;
+
+         const expenseDetails = await db
+            .select()
+            .from(expenses)
+            .where(and(eq(expenses.expenseId, expenseId), eq(expenses.status, 'active')));
+
+         if (!expenseDetails.length)
+            return {
+               status: 'error' as const,
+               message: 'Expense not found',
+            };
+
+         return {
+            status: 'success' as const,
+            expense: expenseDetails[0],
+         };
+      }),
+
+   updateExpense: publicProcedure
+      .input(updateExpenseValidation)
       .mutation(async ({ ctx, input }) => {
          const {
             expenseAmount,
@@ -116,6 +135,11 @@ export const expenseRouter = createTRPCRouter({
             .update(expenses)
             .set({ status: 'deleted' })
             .where(eq(expenses.expenseId, expenseId));
+
+         return {
+            status: 'success' as const,
+            message: 'Record deleted succefsully',
+         };
       }),
 
    listExpenses: publicProcedure
@@ -172,7 +196,7 @@ export const expenseRouter = createTRPCRouter({
 
          return {
             expenses: expenseResults,
-            count: countResults,
+            count: countResults[0].count,
          };
       }),
 });

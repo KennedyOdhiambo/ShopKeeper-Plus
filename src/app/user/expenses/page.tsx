@@ -1,5 +1,6 @@
 import React from 'react';
 import NewExpense from './_components/NewExpense';
+import ExpensesTable from './_components/ExpensesTable';
 
 export default function Expenses() {
    return (
@@ -8,6 +9,7 @@ export default function Expenses() {
          <div className="self-end">
             <NewExpense />
          </div>
+         <ExpensesTable />
       </div>
    );
 }

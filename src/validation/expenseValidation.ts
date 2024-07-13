@@ -9,4 +9,11 @@ export const expenseValidation = z.object({
    paymenDate: z.string().min(2, { message: 'Date is required' }),
 });
 
+export const updateExpenseValidation = expenseValidation
+   .omit({ userId: true, paymenDate: true })
+   .extend({
+      expenseId: z.string(),
+   });
+
 export type NewExpense = z.infer<typeof expenseValidation>;
+export type EditExpense = z.infer<typeof updateExpenseValidation>;
