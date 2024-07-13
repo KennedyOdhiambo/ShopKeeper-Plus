@@ -8,7 +8,7 @@ import {
    DialogTrigger,
 } from '@/components/ui/dialog';
 import { CirclePlus } from 'lucide-react';
-import CreateCategoryForm from '../../inventory/categories/_components/CreateCategoryForm';
+import NewExpenseForm from './NewExpenseForm';
 
 export default function NewExpense() {
    return (
@@ -23,7 +23,7 @@ export default function NewExpense() {
                <DialogTitle>New Expense</DialogTitle>
                <DialogDescription>Add new Expense</DialogDescription>
             </DialogHeader>
-            <CreateCategoryForm />
+            <NewExpenseForm />
          </DialogContent>
       </Dialog>
    );
