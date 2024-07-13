@@ -3,7 +3,6 @@ import { Link } from 'react-transition-progress/next';
 import logo from '../../../../public/logo.svg';
 import Image from 'next/image';
 import { Menubar, MenubarMenu, MenubarSeparator } from '@/components/ui/menubar';
-import ExpandableMenuItem from './ExpandableMenuItem';
 import {
    Banknote,
    Boxes,
