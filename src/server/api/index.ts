@@ -8,6 +8,7 @@ import { itemsRouter } from './routers/items';
 import { salesItemsRouter } from './routers/salesItems';
 import { categoriesRouter } from './routers/categories';
 import { inventoryRouter } from './routers/inventory';
+import { creditDebtRouter } from './routers/creditDebt';
 
 export const appRouter = createTRPCRouter({
    businessTypes: businessTypesRouter,
@@ -19,6 +20,7 @@ export const appRouter = createTRPCRouter({
    salesItems: salesItemsRouter,
    categories: categoriesRouter,
    inventory: inventoryRouter,
+   creditDebt: creditDebtRouter,
 });
 
 export type AppRouter = typeof appRouter;
