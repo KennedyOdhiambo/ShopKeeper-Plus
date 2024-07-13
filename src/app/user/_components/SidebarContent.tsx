@@ -89,14 +89,17 @@ export default function SidebarContent() {
             </MenubarMenu>
             <MenubarSeparator />
 
-            <ExpandableMenuItem
-               title=" Expenses"
-               icon={<Wallet strokeWidth={'1.5px'} className="size-5 text-accent-foreground" />}
-               menuOptions={[
-                  { href: '/user/expenses/general', title: 'General Expenses' },
-                  { href: '/user/expenses/suppliers', title: 'Suppliers' },
-               ]}
-            />
+            <MenubarMenu>
+               <Link
+                  href={'/user/expenses'}
+                  className="inline-flex h-10 w-full items-center justify-start gap-3 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+               >
+                  <Wallet strokeWidth={'1.5px'} className="size-5" />
+                  Expenses
+               </Link>
+            </MenubarMenu>
+            <MenubarSeparator />
+
             <ExpandableMenuItem
                title="Credit & Debt"
                icon={<CreditCard strokeWidth={'1.5px'} className="size-5 text-accent-foreground" />}

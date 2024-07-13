@@ -1,11 +1,11 @@
-import { Card } from "../../../components/ui/card"
+import { Card } from '../../../components/ui/card';
 
-import SidebarContent from "./SidebarContent"
+import SidebarContent from './SidebarContent';
 
 export default function Sidebar() {
    return (
-      <Card className="hidden lg:block fixed inset-y-0 z-20 left-0 w-60 rounded-none">
+      <Card className="fixed inset-y-0 left-0 z-20 hidden w-60 rounded-none lg:block">
          <SidebarContent />
       </Card>
-   )
+   );
 }
