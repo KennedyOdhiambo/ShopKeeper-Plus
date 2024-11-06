@@ -8,7 +8,7 @@ import {
    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { CirclePlus, Plus } from 'lucide-react';
-import { Link } from 'react-transition-progress/next';
+import Link from 'next/link';
 
 const dropdownOptions = [
    { label: 'Sale', href: '/user/sales' },
