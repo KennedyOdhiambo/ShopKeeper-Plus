@@ -8,10 +8,10 @@ import React from 'react';
 import useListSalesItems from '../hooks/useListSalesItems';
 import { salesItemsColumns } from '../_components/SalesItemsColumns';
 import DataTable from '@/components/DataTable';
+import { useParams } from 'next/navigation';
 
-export default function SalesDetails({ params }: { params: { salesId: string } }) {
-   const { salesId } = params;
-
+export default function SalesDetails() {
+   const { salesId } = useParams<{ salesId: string }>();
    const { salesDetails, itemsWithInventory, customer } = useListSalesItems(salesId);
    const tableData = itemsWithInventory?.map((entry) => ({
       salesItemId: entry.sales_items.salesItemId ?? '',
