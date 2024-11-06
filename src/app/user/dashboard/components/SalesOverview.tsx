@@ -1,9 +1,9 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import React from 'react'
-import { SalesOverviewChart } from './SalesOverviewChart'
-import { Button } from '@/components/ui/button'
-import { Link } from 'react-transition-progress/next'
-import { ArrowUpRight } from 'lucide-react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import React from 'react';
+import { SalesOverviewChart } from './SalesOverviewChart';
+import { Button } from '@/components/ui/button';
+import { ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
 
 export default function SalesOverview() {
    return (
@@ -25,5 +25,5 @@ export default function SalesOverview() {
             <SalesOverviewChart />
          </CardContent>
       </Card>
-   )
+   );
 }

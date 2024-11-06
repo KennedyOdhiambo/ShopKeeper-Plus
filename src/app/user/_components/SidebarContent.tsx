@@ -1,5 +1,4 @@
 import { CardContent } from '@/components/ui/card';
-import { Link } from 'react-transition-progress/next';
 import logo from '../../../../public/logo.svg';
 import Image from 'next/image';
 import { Menubar, MenubarMenu, MenubarSeparator } from '@/components/ui/menubar';
@@ -13,6 +12,7 @@ import {
    Wallet,
    Warehouse,
 } from 'lucide-react';
+import Link from 'next/link';
 
 export default function SidebarContent() {
    return (

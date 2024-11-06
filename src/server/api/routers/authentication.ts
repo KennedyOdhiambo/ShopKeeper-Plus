@@ -15,11 +15,14 @@ export const authRouter = createTRPCRouter({
             businessName: z.string().min(2),
             businessType: z.string(),
             businessLocation: z.string().min(2),
-         })
+         }),
       )
       .mutation(async ({ ctx, input }) => {
          const formattedPhone = formatPhoneNumber(input.phoneNumber);
-         const existingUser = await ctx.db.select().from(users).where(eq(users.phoneNumber, formattedPhone));
+         const existingUser = await ctx.db
+            .select()
+            .from(users)
+            .where(eq(users.phoneNumber, formattedPhone));
 
          if (existingUser.length > 0) {
             return {
@@ -50,13 +53,17 @@ export const authRouter = createTRPCRouter({
          z.object({
             phoneNumber: z.string().min(2),
             password: z.string().min(6),
-         })
+         }),
       )
       .mutation(async ({ ctx, input }) => {
          const { password, phoneNumber } = input;
 
          const formattedPhone = formatPhoneNumber(phoneNumber);
-         const existingUser = await ctx.db.select().from(users).where(eq(users.phoneNumber, formattedPhone));
+
+         const existingUser = await ctx.db
+            .select()
+            .from(users)
+            .where(eq(users.phoneNumber, formattedPhone));
 
          if (!existingUser.length) {
             return {

@@ -1,7 +1,13 @@
-import { MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarTrigger } from '@/components/ui/menubar';
+import {
+   MenubarContent,
+   MenubarItem,
+   MenubarMenu,
+   MenubarSeparator,
+   MenubarTrigger,
+} from '@/components/ui/menubar';
 import { ChevronRightIcon } from 'lucide-react';
+import Link from 'next/link';
 import { ReactNode } from 'react';
-import { Link } from 'react-transition-progress/next';
 
 type ExpandableMenuProps = {
    title: string;
