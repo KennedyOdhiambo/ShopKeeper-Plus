@@ -1,0 +1,20 @@
+{
+  "/api/trpc/[trpc]/route": "app/api/trpc/[trpc]/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/api/auth/[...nextAuth]/route": "app/api/auth/[...nextAuth]/route.js",
+  "/page": "app/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/auth/@signup/page": "app/auth/@signup/page.js",
+  "/auth/@login/page": "app/auth/@login/page.js",
+  "/user/expenses/page": "app/user/expenses/page.js",
+  "/user/dashboard/page": "app/user/dashboard/page.js",
+  "/user/sales-details/[salesId]/page": "app/user/sales-details/[salesId]/page.js",
+  "/user/credit-and-debt/@credit/page": "app/user/credit-and-debt/@credit/page.js",
+  "/user/credit-and-debt/@debt/page": "app/user/credit-and-debt/@debt/page.js",
+  "/user/customers/page": "app/user/customers/page.js",
+  "/user/inventory/products-and-services/page": "app/user/inventory/products-and-services/page.js",
+  "/user/inventory/inventory-management/page": "app/user/inventory/inventory-management/page.js",
+  "/user/inventory/categories/page": "app/user/inventory/categories/page.js",
+  "/user/sales/@allSales/page": "app/user/sales/@allSales/page.js",
+  "/user/sales/@newSales/page": "app/user/sales/@newSales/page.js"
+}
